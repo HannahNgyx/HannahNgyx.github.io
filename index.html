@@ -3,71 +3,61 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>HannahNgyx</title>
-  <meta name="description" content="Resume for HannahNgyx: public software projects and skills.">
+  <title>Hannah Ngyx | Curious software maker</title>
+  <meta name="description" content="The personal site of Hannah Ngyx, a software developer building useful, thoughtful tools.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>HannahNgyx</h1>
-    <p>Software developer</p>
-    <p>I publish software on GitHub, including a live trauma-handoff demo, a Windows desktop companion, and Python web apps.</p>
-    <ul>
-      <li><a href="https://github.com/HannahNgyx">GitHub</a></li>
-    </ul>
-  </header>
-  <main>
-    <section>
-      <h2>Experience</h2>
-      <article>
-        <h3>TraumaLink</h3>
-        <p>Personal project · <a href="https://github.com/HannahNgyx/handoff-zero">handoff-zero</a></p>
-        <ul>
-          <li>Built a Next.js demo where an EMS voice or text report fills a trauma card and the hospital sees the case as soon as the handoff starts.</li>
-          <li>Sent live updates through Medplum FHIR and WebSockets, with Deepgram for voice and a text fallback when voice is unavailable.</li>
-          <li>Supported more than one patient at a time, plus hospital actions to accept a case or request missing information.</li>
-        </ul>
-      </article>
-      <article>
-        <h3>Doraemon Desktop</h3>
-        <p>Personal project · <a href="https://github.com/HannahNgyx/neko-window">neko-window</a></p>
-        <ul>
-          <li>Built an Electron companion for Windows that walks, climbs, and follows the cursor across monitors.</li>
-          <li>Added water reminders with a daily count and streak, quiet hours, and tray shortcuts for pause, follow, and snooze.</li>
-          <li>Stored settings locally so size, animation speed, and startup preferences persist between launches.</li>
-        </ul>
-      </article>
-      <article>
-        <h3>AI Whale Watch</h3>
-        <p>Personal project · <a href="https://github.com/HannahNgyx/whale-tracker">whale-tracker</a></p>
-        <ul>
-          <li>Built a FastAPI backend and a static HTML dashboard of recent large Ethereum transfers.</li>
-          <li>Showed wallet inflow, outflow, net flow, and a simple role heuristic for a selected address.</li>
-          <li>Added an LLM summary of the current snapshot, plus text and CSV export.</li>
-        </ul>
-      </article>
-      <article>
-        <h3>News Organizer</h3>
-        <p>Personal project · <a href="https://github.com/HannahNgyx/news-organizer">news-organizer</a></p>
-        <ul>
-          <li>Started a personal news and documents assistant with a FastAPI health check and a Docker Compose layout for the API and web app.</li>
-        </ul>
-      </article>
-      <article>
-        <h3>Concurrent Web Crawler</h3>
-        <p>Personal project · <a href="https://github.com/HannahNgyx/concurrent-web-crawler">concurrent-web-crawler</a></p>
-        <ul>
-          <li>Learning project: build a sequential crawler first, then add concurrency later.</li>
-        </ul>
-      </article>
-    </section>
-    <section>
-      <h2>Skills</h2>
-      <ul>
-        <li>Languages: JavaScript, TypeScript, Python, HTML</li>
-        <li>Tools: Node.js, Next.js, Electron, FastAPI, SQLite</li>
-      </ul>
-    </section>
-  </main>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Hannah Ngyx home">HN<span>.</span></a>
+      <nav aria-label="Main navigation"><a href="#work">Work</a><a href="#about">About</a><a href="Hannah_Nguyen_resume_2026.pdf">Resume <span aria-hidden="true">↗</span></a><a href="https://github.com/HannahNgyx">GitHub <span aria-hidden="true">↗</span></a></nav>
+      <button class="theme-toggle" type="button" aria-label="Switch to evening colors" aria-pressed="false"><span aria-hidden="true">◐</span></button>
+    </header>
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy"><p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true"></span> Software developer · curious by default</p><h1 id="hero-title">Making useful things<br><em>with a little soul.</em></h1><p class="hero-intro">I am Hannah, a developer who likes turning messy problems into calm, human tools. I work across web apps, desktop companions, and small experiments that make everyday life feel a bit more possible.</p><div class="hero-actions"><a class="button button-primary" href="#work">See the work <span aria-hidden="true">↓</span></a><a class="text-link" href="mailto:hannahngyx@gmail.com">Say hello <span aria-hidden="true">↗</span></a></div></div>
+        <div class="hero-art" aria-label="Abstract sun, moon, and desert illustration" role="img"><div class="sun"></div><div class="moon"></div><div class="arch arch-one"></div><div class="arch arch-two"></div><div class="star star-one">+</div><div class="star star-two">+</div><div class="plant plant-left"><i></i><i></i><i></i></div><div class="plant plant-right"><i></i><i></i><i></i></div></div>
+      </section>
+      <section class="signal-bar" aria-label="Current interests"><p>Currently exploring</p><div class="signal-list"><span>Interfaces that listen</span><span>Digital companions</span><span>Small useful magic</span></div></section>
+      <section class="work-section" id="work" aria-labelledby="work-title">
+        <div class="section-heading"><div><p class="eyebrow">Selected work</p><h2 id="work-title">A few things I have made</h2></div><p class="section-note">A mix of practical tools, playful experiments, and projects still teaching me something.</p></div>
+        <div class="filters" role="group" aria-label="Filter projects"><button class="filter-button is-active" type="button" data-filter="all">All work</button><button class="filter-button" type="button" data-filter="care">Care + people</button><button class="filter-button" type="button" data-filter="play">Playful tools</button><button class="filter-button" type="button" data-filter="data">Data + web</button></div>
+        <div class="project-grid">
+          <article class="project project-featured" data-category="care"><div class="project-topline"><span class="project-number">01</span><span class="tag">Care + people</span></div><h3>TraumaLink</h3><p class="project-lede">A live handoff that lets emergency teams share the right information before the patient arrives.</p><ul class="project-details"><li>Next.js + WebSockets</li><li>Medplum FHIR + Deepgram</li><li>Voice and text input</li></ul><a class="project-link" href="https://github.com/HannahNgyx/handoff-zero">Explore project <span aria-hidden="true">↗</span></a></article>
+          <article class="project project-sage" data-category="play"><div class="project-topline"><span class="project-number">02</span><span class="tag">Playful tools</span></div><h3>Doraemon Desktop</h3><p class="project-lede">A tiny Windows companion who walks across your screen and remembers to remind you to drink water.</p><ul class="project-details"><li>Electron for Windows</li><li>Local-first settings</li><li>Tray shortcuts + streaks</li></ul><a class="project-link" href="https://github.com/HannahNgyx/neko-window">Explore project <span aria-hidden="true">↗</span></a></article>
+          <article class="project project-gold" data-category="data"><div class="project-topline"><span class="project-number">03</span><span class="tag">Data + web</span></div><h3>AI Whale Watch</h3><p class="project-lede">A clear little dashboard for following large Ethereum transfers without losing the thread.</p><ul class="project-details"><li>FastAPI + static HTML</li><li>Wallet flow heuristics</li><li>Text and CSV export</li></ul><a class="project-link" href="https://github.com/HannahNgyx/whale-tracker">Explore project <span aria-hidden="true">↗</span></a></article>
+          <article class="project project-rose" data-category="data"><div class="project-topline"><span class="project-number">04</span><span class="tag">Data + web</span></div><h3>News Organizer</h3><p class="project-lede">A starting point for a personal news and documents assistant that keeps the signal close.</p><ul class="project-details"><li>FastAPI health check</li><li>Docker Compose layout</li></ul><a class="project-link" href="https://github.com/HannahNgyx/news-organizer">Explore project <span aria-hidden="true">↗</span></a></article>
+          <article class="project project-cream" data-category="play"><div class="project-topline"><span class="project-number">05</span><span class="tag">Playful tools</span></div><h3>Concurrent Web Crawler</h3><p class="project-lede">A learning project: starting with one careful crawler, then making room for concurrency.</p><ul class="project-details"><li>Python</li><li>Sequential to concurrent</li></ul><a class="project-link" href="https://github.com/HannahNgyx/concurrent-web-crawler">Explore project <span aria-hidden="true">↗</span></a></article>
+        </div>
+        <p class="empty-state" hidden>No projects in this corner yet. Try another filter.</p>
+      </section>
+      <section class="practice-section" aria-labelledby="practice-title">
+        <div class="section-heading"><div><p class="eyebrow">Professional practice</p><h2 id="practice-title">The work behind the work</h2></div><p class="section-note">Alongside personal experiments, I build dependable systems for teams who need the details to hold together.</p></div>
+        <div class="practice-grid">
+          <article><span class="practice-index">01</span><h3>Workflow automation</h3><p>Built Python and Flask automation across FileMaker and Microsoft 365, helping teams spend less time on manual tracking.</p></article>
+          <article><span class="practice-index">02</span><h3>Internal tools</h3><p>Created scheduling, ledger, and reporting tools with React, TypeScript, and connected business data.</p></article>
+          <article><span class="practice-index">03</span><h3>Reliability work</h3><p>Investigated production issues across APIs, databases, and front-end clients, improving the systems people rely on every day.</p></article>
+        </div>
+        <p class="toolkit"><strong>Toolkit</strong> Python · Flask · React · TypeScript · JavaScript · SQL · PostgreSQL · MongoDB · FileMaker · Microsoft 365 · Docker · AWS · GitHub Actions</p>
+      </section>
+      <section class="about-section" id="about" aria-labelledby="about-title"><div class="about-stamp" aria-hidden="true"><span>made with</span><strong>care</strong><span>and curiosity</span></div><div class="about-copy"><p class="eyebrow">A little more context</p><h2 id="about-title">Good software should feel like a thoughtful room.</h2><p>I care about the space between the technical and the human: the quiet details that make something easier to understand, more comfortable to use, or simply a little more delightful.</p><p>My current toolkit includes JavaScript, TypeScript, Python, HTML, Node.js, Next.js, Electron, FastAPI, and SQLite.</p><a class="text-link" href="https://github.com/HannahNgyx">Browse everything on GitHub <span aria-hidden="true">↗</span></a></div></section>
+    </main>
+    <footer><p>Hannah Ngyx <span aria-hidden="true">·</span> building in public, one curious idea at a time</p><a href="#top">Back to top ↑</a></footer>
+  </div>
+  <script>
+    const filterButtons = document.querySelectorAll('.filter-button');
+    const projects = document.querySelectorAll('.project');
+    const emptyState = document.querySelector('.empty-state');
+    filterButtons.forEach((button) => button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+      filterButtons.forEach((item) => item.classList.toggle('is-active', item === button));
+      let visibleCount = 0;
+      projects.forEach((project) => { const visible = filter === 'all' || project.dataset.category === filter; project.hidden = !visible; if (visible) visibleCount += 1; });
+      emptyState.hidden = visibleCount !== 0;
+    }));
+    const themeToggle = document.querySelector('.theme-toggle');
+    themeToggle.addEventListener('click', () => { const evening = document.body.classList.toggle('evening'); themeToggle.setAttribute('aria-pressed', evening); themeToggle.setAttribute('aria-label', evening ? 'Switch to daylight colors' : 'Switch to evening colors'); });
+  </script>
 </body>
 </html>
