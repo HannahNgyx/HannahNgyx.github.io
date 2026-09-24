@@ -3,270 +3,312 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hannah Nguyen | Curious software maker</title>
-  <meta name="description" content="Hannah Ngyx, a software developer building useful, thoughtful tools.">
+  <title>Hannah Nguyen</title>
+  <meta name="description" content="Hannah Nguyen, a software developer building useful, thoughtful tools.">
+  <meta name="theme-color" content="#D99AA5">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;1,6..96,500;1,6..96,600&family=Great+Vibes&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=15">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=Caveat:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=17">
+  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
-  <div class="page" id="top">
-    <header class="site-head">
-      <p class="issue-line"><span>Vol. 01</span><span>The curious issue</span><span>2026</span></p>
-      <a class="wordmark" href="#top">Hannah</a>
-      <div class="mast-row">
-        <nav aria-label="Sections">
-          <a href="#experience">Experience</a>
-          <a href="#projects">Projects</a>
-          <a href="#resume">Resume</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <button class="theme-toggle" type="button" aria-label="Switch to city lights" aria-pressed="false">City lights</button>
-      </div>
-    </header>
+  <a class="skip" href="#main">Skip to content</a>
 
-    <main>
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
+  <header class="site-nav" id="top">
+    <a class="wordmark" href="#top">Hannah Nguyen</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#projects">Projects</a>
+      <a href="#notes">Notes</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <p class="issue bar-issue">Vol. 01 — 2026</p>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="contents">Contents</button>
+    <div class="contents-note" id="contents">
+      <p class="scribble">contents</p>
+      <nav aria-label="Contents">
+        <a href="#about"><span>About</span><span class="leader"></span><span>01</span></a>
+        <a href="#work"><span>Work</span><span class="leader"></span><span>02</span></a>
+        <a href="#projects"><span>Projects</span><span class="leader"></span><span>03</span></a>
+        <a href="#notes"><span>Notes</span><span class="leader"></span><span>04</span></a>
+        <a href="#contact"><span>Contact</span><span class="leader"></span><span>05</span></a>
+      </nav>
+      <p class="issue">Vol. 01 — 2026</p>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="room" aria-labelledby="hero-title">
+      <div class="poster">
+        <div class="poster-copy">
           <p class="eyebrow">Software developer</p>
           <h1 id="hero-title">Making useful things <em>with a little soul.</em></h1>
           <p class="lede">I am Hannah, a developer who likes turning messy problems into calm, human tools. I work across web apps, desktop companions, and small experiments that make everyday life feel a bit more possible.</p>
           <p class="signoff">xoxo</p>
           <div class="hero-actions">
-            <a class="button" href="#experience">The experience</a>
+            <a class="button" href="#work">The experience</a>
             <a class="text-link" href="#contact">Say hello</a>
           </div>
         </div>
-        <!-- Your photos: save a file at this exact name and it replaces the frame.
-             images/portrait.jpg -->
         <figure class="photo-slot photo-slot--hero">
+          <span class="pin" aria-hidden="true"></span>
           <div class="frame">
             <img src="images/portrait.jpg" alt="Portrait of Hannah">
             <p class="slot-empty"><span>Your photo</span> images/portrait.jpg</p>
           </div>
           <figcaption class="slot-ready">Portrait</figcaption>
         </figure>
-      </section>
+      </div>
+    </section>
 
-      <section class="pictures" aria-label="Photo placeholders">
-        <div class="section-heading">
-          <p class="eyebrow">The pictures</p>
-          <p class="section-note">Two more, with the portrait above.</p>
+    <section class="spread-wrap" aria-label="Pictures">
+      <div class="spread">
+        <figure class="photo-slot mat tilt-left">
+          <span class="tape tape-pink" aria-hidden="true"></span>
+          <div class="frame">
+            <img src="images/photo-1.jpg" alt="Hannah reflected in a window with a red curtain">
+            <p class="slot-empty"><span>Your photo</span> images/photo-1.jpg</p>
+          </div>
+          <figcaption class="slot-ready">Window</figcaption>
+        </figure>
+        <figure class="photo-slot mat tilt-right photo-b photocopy">
+          <span class="tape tape-blue" aria-hidden="true"></span>
+          <div class="frame">
+            <img src="images/photo-2.jpg" alt="Hannah walking a shaded path between houses">
+            <p class="slot-empty"><span>Your photo</span> images/photo-2.jpg</p>
+          </div>
+          <figcaption class="slot-ready">The path</figcaption>
+        </figure>
+        <aside class="clipping">
+          <p class="eyebrow">From the desk</p>
+          <p>I care about the space between the technical and the human.</p>
+        </aside>
+        <p class="scribble spread-note">two more, with the portrait above</p>
+        <div class="flower" aria-hidden="true">
+          <svg viewBox="0 0 80 130" width="76" height="124">
+            <path d="M42 58 C40 86 34 108 30 126" fill="none" stroke="#7d8a68" stroke-width="1.3"/>
+            <ellipse cx="26" cy="92" rx="12" ry="5" transform="rotate(-36 26 92)" fill="#A8AE8C" opacity="0.85"/>
+            <ellipse cx="50" cy="78" rx="11" ry="4.5" transform="rotate(28 50 78)" fill="#8f9874"/>
+            <g fill="#F2CFD3" stroke="#824A54" stroke-width="0.6">
+              <ellipse cx="40" cy="28" rx="7" ry="12"/>
+              <ellipse cx="40" cy="28" rx="7" ry="12" transform="rotate(72 40 28)"/>
+              <ellipse cx="40" cy="28" rx="7" ry="12" transform="rotate(144 40 28)"/>
+              <ellipse cx="40" cy="28" rx="7" ry="12" transform="rotate(216 40 28)"/>
+              <ellipse cx="40" cy="28" rx="7" ry="12" transform="rotate(288 40 28)"/>
+            </g>
+            <circle cx="40" cy="28" r="4.2" fill="#D99AA5"/>
+          </svg>
         </div>
-        <!-- images/photo-1.jpg  images/photo-2.jpg -->
-        <div class="picture-row">
-          <figure class="photo-slot">
-            <div class="frame">
-              <img src="images/photo-1.jpg" alt="Photo of Hannah, one">
-              <p class="slot-empty"><span>Your photo</span> images/photo-1.jpg</p>
-            </div>
-            <figcaption class="slot-ready">One</figcaption>
-          </figure>
-          <figure class="photo-slot">
-            <div class="frame">
-              <img src="images/photo-2.jpg" alt="Photo of Hannah, two">
-              <p class="slot-empty"><span>Your photo</span> images/photo-2.jpg</p>
-            </div>
-            <figcaption class="slot-ready">Two</figcaption>
-          </figure>
-        </div>
-      </section>
+        <p class="stamp" aria-hidden="true"><span>Vol. 01</span><span>2026</span></p>
+      </div>
+    </section>
 
-      <section class="about" aria-labelledby="about-title">
+    <section class="sheet" id="about" aria-labelledby="about-title">
+      <div class="margin-note">
+        <p class="scribble">a note to self</p>
+        <svg class="arrow" viewBox="0 0 90 36" aria-hidden="true">
+          <path d="M4 26 C 28 30, 48 8, 82 12" fill="none" stroke="#824A54" stroke-width="1.3"/>
+          <path d="M72 6 L84 12 L70 18" fill="none" stroke="#824A54" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <div>
+        <p class="eyebrow">About</p>
         <h2 id="about-title">Good software should feel like a thoughtful room.</h2>
         <div class="about-copy">
           <p>I care about the space between the technical and the human: the quiet details that make something easier to understand, more comfortable to use, or simply a little more delightful.</p>
           <p>I studied computer science at the University of Michigan. These days I work in Python, TypeScript, React, Flask, and the databases and cloud tools that keep a product standing up.</p>
-          <p class="now"><span>Now</span> Interfaces that listen <span aria-hidden="true">&middot;</span> Digital companions <span aria-hidden="true">&middot;</span> Small useful magic</p>
           <a class="text-link" href="https://github.com/HannahNgyx">GitHub</a>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="band" id="experience" aria-labelledby="experience-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Experience</p>
-            <h2 id="experience-title">Where the work has lived</h2>
+    <section class="sheet band" id="work" aria-labelledby="experience-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Work</p>
+          <h2 id="experience-title">Where the work has lived</h2>
+        </div>
+        <p class="section-note">Azimuth and Tarmac are both current. Zyro and MiTek are the chapters just before them.</p>
+      </div>
+      <ol class="jobs">
+        <li class="job">
+          <div class="job-meta">
+            <p class="job-when">June 2026 – Present</p>
+            <p class="job-where">Bay Area, USA</p>
           </div>
-          <p class="section-note">Azimuth and Tarmac are both current. Zyro and MiTek are the chapters just before them.</p>
-        </div>
-
-        <ol class="jobs">
-          <li class="job">
-            <div class="job-meta">
-              <p class="job-when">June 2026 &ndash; Present</p>
-              <p class="job-where">Bay Area, USA</p>
-            </div>
-            <div class="job-body">
-              <p class="job-place">Azimuth Industrial Co.</p>
-              <h3>Software Developer</h3>
-              <ul>
-                <li>Engineered an RFQ workflow platform in Python and Flask, with FileMaker and Microsoft 365, for 10+ users. It handles about 20&ndash;25 RFQs a month and saves roughly 8 hours a week of manual tracking.</li>
-                <li>Built a cross-company scheduling and ledger platform in Python, React, and TypeScript that turns multi-hour meeting coordination and manual credit tracking into about 10-minute workflows.</li>
-                <li>Shipped a CMMC-compliant, on-premise AI knowledge platform with Python, PostgreSQL, Docker, and local models, cutting retrieval from 15&ndash;30 minutes to under 2 minutes.</li>
-              </ul>
-            </div>
-          </li>
-          <li class="job">
-            <div class="job-meta">
-              <p class="job-when">May 2024 &ndash; Present</p>
-              <p class="job-where">Remote, USA</p>
-            </div>
-            <div class="job-body">
-              <p class="job-place">Tarmac.IO</p>
-              <h3>Software Developer</h3>
-              <ul>
-                <li>Investigated and resolved 100+ production issues across backend APIs, databases, and front-end clients, using logs, API responses, and telemetry. Repeat incidents dropped by about 20%.</li>
-                <li>Debugged Rails services and PostgreSQL data pipelines so API behavior, data integrity, and 50,000+ energy certificate records stayed correct.</li>
-                <li>Built CSV and PDF ingestion pipelines that cut manual data entry by 85% and improved throughput.</li>
-              </ul>
-            </div>
-          </li>
-          <li class="job">
-            <div class="job-meta">
-              <p class="job-when">July 2025 &ndash; Feb 2026</p>
-              <p class="job-where">New York City, USA</p>
-            </div>
-            <div class="job-body">
-              <p class="job-place">Zyro Company</p>
-              <h3>Founding Engineer</h3>
-              <ul>
-                <li>Prototyped AI onboarding and activation flows with Product and Design for demos and internal strategy. Internal testing showed about 25&ndash;35% better performance.</li>
-                <li>Iterated those flows through early user sessions, improving perceived product value and lifting activation by about 40%.</li>
-                <li>Connected the front end to FastAPI and Node.js for live demo data, and brought API latency down about 35% while debugging integrations with logs and telemetry.</li>
-              </ul>
-            </div>
-          </li>
-          <li class="job">
-            <div class="job-meta">
-              <p class="job-when">Dec 2023 &ndash; May 2024</p>
-              <p class="job-where">Ann Arbor, MI</p>
-            </div>
-            <div class="job-body">
-              <p class="job-place">MiTek Company</p>
-              <h3>Systems Integration Researcher</h3>
-              <ul>
-                <li>Coordinated integration across machine-learning models, embedded systems, and validation workflows, cutting integration and debug time by 30%.</li>
-                <li>Built and evaluated computer-vision pipelines with Detectron2, Python, and C++, improving anomaly detection accuracy by 25%.</li>
-              </ul>
-            </div>
-          </li>
-        </ol>
-      </section>
-
-      <section class="band" id="projects" aria-labelledby="work-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Selected work</p>
-            <h2 id="work-title">A few things I have made</h2>
+          <div class="job-body">
+            <p class="job-place">Azimuth Industrial Co.</p>
+            <h3>Software Developer</h3>
+            <ul>
+              <li>Engineered an RFQ workflow platform in Python and Flask, with FileMaker and Microsoft 365, for 10+ users. It handles about 20–25 RFQs a month and saves roughly 8 hours a week of manual tracking.</li>
+              <li>Built a cross-company scheduling and ledger platform in Python, React, and TypeScript that turns multi-hour meeting coordination and manual credit tracking into about 10-minute workflows.</li>
+              <li>Shipped a CMMC-compliant, on-premise AI knowledge platform with Python, PostgreSQL, Docker, and local models, cutting retrieval from 15–30 minutes to under 2 minutes.</li>
+            </ul>
           </div>
-          <p class="section-note">A mix of practical tools, playful experiments, and projects still teaching me something.</p>
-        </div>
-
-        <div class="filters" role="group" aria-label="Filter projects">
-          <button class="filter-button is-active" type="button" data-filter="all">All work</button>
-          <button class="filter-button" type="button" data-filter="care">Care + people</button>
-          <button class="filter-button" type="button" data-filter="play">Playful tools</button>
-          <button class="filter-button" type="button" data-filter="data">Data + web</button>
-        </div>
-
-        <div class="project-grid">
-          <article class="project project-lead" data-category="care">
-            <div class="project-topline"><span class="project-number">01</span><span class="tag">Care + people</span></div>
-            <h3>TraumaLink</h3>
-            <p class="project-lede">A live handoff that lets emergency teams share the right information before the patient arrives.</p>
-            <ul class="project-details"><li>Next.js + WebSockets</li><li>Medplum FHIR + Deepgram</li><li>Voice and text input</li></ul>
-            <a class="project-link" href="https://github.com/HannahNgyx/handoff-zero">Explore project</a>
-          </article>
-          <article class="project" data-category="play">
-            <div class="project-topline"><span class="project-number">02</span><span class="tag">Playful tools</span></div>
-            <h3>Doraemon Desktop</h3>
-            <p class="project-lede">A tiny Windows companion who walks across your screen and remembers to remind you to drink water.</p>
-            <ul class="project-details"><li>Electron for Windows</li><li>Local-first settings</li><li>Tray shortcuts + streaks</li></ul>
-            <a class="project-link" href="https://github.com/HannahNgyx/neko-window">Explore project</a>
-          </article>
-          <article class="project" data-category="data">
-            <div class="project-topline"><span class="project-number">03</span><span class="tag">Data + web</span></div>
-            <h3>AI Whale Watch</h3>
-            <p class="project-lede">A clear little dashboard for following large Ethereum transfers without losing the thread.</p>
-            <ul class="project-details"><li>FastAPI + static HTML</li><li>Wallet flow heuristics</li><li>Text and CSV export</li></ul>
-            <a class="project-link" href="https://github.com/HannahNgyx/whale-tracker">Explore project</a>
-          </article>
-          <article class="project" data-category="data">
-            <div class="project-topline"><span class="project-number">04</span><span class="tag">Data + web</span></div>
-            <h3>News Organizer</h3>
-            <p class="project-lede">A starting point for a personal news and documents assistant that keeps the signal close.</p>
-            <ul class="project-details"><li>FastAPI health check</li><li>Docker Compose layout</li></ul>
-            <a class="project-link" href="https://github.com/HannahNgyx/news-organizer">Explore project</a>
-          </article>
-          <article class="project" data-category="play">
-            <div class="project-topline"><span class="project-number">05</span><span class="tag">Playful tools</span></div>
-            <h3>Concurrent Web Crawler</h3>
-            <p class="project-lede">A learning project: starting with one careful crawler, then making room for concurrency.</p>
-            <ul class="project-details"><li>Python</li><li>Sequential to concurrent</li></ul>
-            <a class="project-link" href="https://github.com/HannahNgyx/concurrent-web-crawler">Explore project</a>
-          </article>
-        </div>
-        <p class="empty-state" hidden>No projects in this corner yet. Try another filter.</p>
-      </section>
-
-      <section class="band" id="resume" aria-labelledby="resume-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Resume</p>
-            <h2 id="resume-title">The short version, on paper</h2>
+        </li>
+        <li class="job">
+          <div class="job-meta">
+            <p class="job-when">May 2024 – Present</p>
+            <p class="job-where">Remote, USA</p>
           </div>
-          <p class="section-note">One page, print ready. The long version is the experience above.</p>
-        </div>
-
-        <div class="resume-grid">
-          <div>
-            <h3>Hannah Nguyen &middot; 2026</h3>
-            <p class="project-lede">Everything below, tidied onto a single sheet.</p>
-            <a class="button" href="Hannah_Nguyen_resume_2026.pdf">Open the PDF</a>
+          <div class="job-body">
+            <p class="job-place">Tarmac.IO</p>
+            <h3>Software Developer</h3>
+            <ul>
+              <li>Investigated and resolved 100+ production issues across backend APIs, databases, and front-end clients, using logs, API responses, and telemetry. Repeat incidents dropped by about 20%.</li>
+              <li>Debugged Rails services and PostgreSQL data pipelines so API behavior, data integrity, and 50,000+ energy certificate records stayed correct.</li>
+              <li>Built CSV and PDF ingestion pipelines that cut manual data entry by 85% and improved throughput.</li>
+            </ul>
           </div>
-          <ul class="resume-highlights">
-            <li><strong>Now</strong> Software Developer at Azimuth Industrial Co. and Tarmac.IO.</li>
-            <li><strong>Before</strong> Founding Engineer at Zyro, systems integration research at MiTek.</li>
-            <li><strong>Shipping</strong> RFQ workflow platforms, scheduling and ledger tools, an on-premise AI knowledge platform.</li>
-          </ul>
-        </div>
-
-        <p class="edu"><span>Education</span> University of Michigan, Ann Arbor &middot; Bachelor of Science in Computer Science</p>
-        <p class="toolkit"><strong>Toolkit</strong> <span>Python &middot; TypeScript &middot; JavaScript &middot; SQL &middot; C++ &middot; Ruby &middot; React &middot; Flask &middot; Ruby on Rails &middot; PostgreSQL &middot; MongoDB &middot; FileMaker &middot; Microsoft 365 &middot; Docker &middot; AWS &middot; GitHub Actions</span></p>
-      </section>
-
-      <section class="band" id="contact" aria-labelledby="contact-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Contact</p>
-            <h2 id="contact-title">Leave a note</h2>
+        </li>
+        <li class="job">
+          <div class="job-meta">
+            <p class="job-when">July 2025 – Feb 2026</p>
+            <p class="job-where">New York City, USA</p>
           </div>
-          <p class="section-note">Roles, collaborations, or a project you cannot stop thinking about.</p>
+          <div class="job-body">
+            <p class="job-place">Zyro Company</p>
+            <h3>Founding Engineer</h3>
+            <ul>
+              <li>Prototyped AI onboarding and activation flows with Product and Design for demos and internal strategy. Internal testing showed about 25–35% better performance.</li>
+              <li>Iterated those flows through early user sessions, improving perceived product value and lifting activation by about 40%.</li>
+              <li>Connected the front end to FastAPI and Node.js for live demo data, and brought API latency down about 35% while debugging integrations with logs and telemetry.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="job">
+          <div class="job-meta">
+            <p class="job-when">Dec 2023 – May 2024</p>
+            <p class="job-where">Ann Arbor, MI</p>
+          </div>
+          <div class="job-body">
+            <p class="job-place">MiTek Company</p>
+            <h3>Systems Integration Researcher</h3>
+            <ul>
+              <li>Coordinated integration across machine-learning models, embedded systems, and validation workflows, cutting integration and debug time by 30%.</li>
+              <li>Built and evaluated computer-vision pipelines with Detectron2, Python, and C++, improving anomaly detection accuracy by 25%.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+      <p class="edu"><span>Education</span> University of Michigan, Ann Arbor · Bachelor of Science in Computer Science</p>
+      <p class="toolkit"><strong>Toolkit</strong> <span>Python · TypeScript · JavaScript · SQL · C++ · Ruby · React · Flask · Ruby on Rails · PostgreSQL · MongoDB · FileMaker · Microsoft 365 · Docker · AWS · GitHub Actions</span></p>
+    </section>
+
+    <section class="sheet band" id="projects" aria-labelledby="work-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Projects</p>
+          <h2 id="work-title">A few things I have made</h2>
         </div>
-        <ul class="contact-list">
-          <li>
-            <span class="contact-label">Email</span>
-            <a href="mailto:nguyenhanh.ac812@gmail.com">nguyenhanh.ac812@gmail.com</a>
-          </li>
-          <li>
-            <span class="contact-label">GitHub</span>
-            <a href="https://github.com/HannahNgyx">github.com/HannahNgyx</a>
-          </li>
-          <li>
-            <span class="contact-label">Resume</span>
-            <a href="Hannah_Nguyen_resume_2026.pdf">Hannah_Nguyen_resume_2026.pdf</a>
-          </li>
+        <p class="section-note">A mix of practical tools, playful experiments, and projects still teaching me something.</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filter projects">
+        <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">All work</button>
+        <button class="filter-button" type="button" data-filter="care">Care + people</button>
+        <button class="filter-button" type="button" data-filter="play">Playful tools</button>
+        <button class="filter-button" type="button" data-filter="data">Data + web</button>
+      </div>
+      <div class="project-grid">
+        <article class="project project-lead" data-category="care">
+          <div class="project-topline"><span class="project-number">01</span><span class="tag">Care + people</span></div>
+          <h3>TraumaLink</h3>
+          <p class="project-lede">A live handoff that lets emergency teams share the right information before the patient arrives.</p>
+          <ul class="project-details"><li>Next.js + WebSockets</li><li>Medplum FHIR + Deepgram</li><li>Voice and text input</li></ul>
+          <a class="project-link" href="https://github.com/HannahNgyx/handoff-zero">Explore project</a>
+        </article>
+        <article class="project" data-category="play">
+          <div class="project-topline"><span class="project-number">02</span><span class="tag">Playful tools</span></div>
+          <h3>Doraemon Desktop</h3>
+          <p class="project-lede">A tiny Windows companion who walks across your screen and remembers to remind you to drink water.</p>
+          <ul class="project-details"><li>Electron for Windows</li><li>Local-first settings</li><li>Tray shortcuts + streaks</li></ul>
+          <a class="project-link" href="https://github.com/HannahNgyx/neko-window">Explore project</a>
+        </article>
+        <article class="project" data-category="data">
+          <div class="project-topline"><span class="project-number">03</span><span class="tag">Data + web</span></div>
+          <h3>AI Whale Watch</h3>
+          <p class="project-lede">A clear little dashboard for following large Ethereum transfers without losing the thread.</p>
+          <ul class="project-details"><li>FastAPI + static HTML</li><li>Wallet flow heuristics</li><li>Text and CSV export</li></ul>
+          <a class="project-link" href="https://github.com/HannahNgyx/whale-tracker">Explore project</a>
+        </article>
+        <article class="project" data-category="data">
+          <div class="project-topline"><span class="project-number">04</span><span class="tag">Data + web</span></div>
+          <h3>News Organizer</h3>
+          <p class="project-lede">A starting point for a personal news and documents assistant that keeps the signal close.</p>
+          <ul class="project-details"><li>FastAPI health check</li><li>Docker Compose layout</li></ul>
+          <a class="project-link" href="https://github.com/HannahNgyx/news-organizer">Explore project</a>
+        </article>
+        <article class="project" data-category="play">
+          <div class="project-topline"><span class="project-number">05</span><span class="tag">Playful tools</span></div>
+          <h3>Concurrent Web Crawler</h3>
+          <p class="project-lede">A learning project: starting with one careful crawler, then making room for concurrency.</p>
+          <ul class="project-details"><li>Python</li><li>Sequential to concurrent</li></ul>
+          <a class="project-link" href="https://github.com/HannahNgyx/concurrent-web-crawler">Explore project</a>
+        </article>
+      </div>
+      <p class="empty-state" hidden>No projects in this corner yet. Try another filter.</p>
+    </section>
+
+    <section class="sheet" id="notes" aria-labelledby="notes-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Notes</p>
+          <h2 id="notes-title">Written in the margin</h2>
+        </div>
+        <p class="section-note">The same interests, kept where a journal would keep them.</p>
+      </div>
+      <ul class="scraps">
+        <li>Interfaces that listen</li>
+        <li>Digital companions</li>
+        <li>Small useful magic</li>
+      </ul>
+      <article class="postcard">
+        <svg class="clip" viewBox="0 0 36 64" aria-hidden="true">
+          <path d="M24 6c0-5-11-5-11 2v36c0 7 14 7 14 0V20c0-3.5-7-3.5-7 0v18" fill="none" stroke="#8aa0b8" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+        <p class="eyebrow">Resume</p>
+        <h3>The short version, on paper</h3>
+        <p class="project-lede">One page, print ready. The long version is the work above.</p>
+        <ul class="resume-highlights">
+          <li><strong>Now</strong> Software Developer at Azimuth Industrial Co. and Tarmac.IO.</li>
+          <li><strong>Before</strong> Founding Engineer at Zyro, systems integration research at MiTek.</li>
+          <li><strong>Shipping</strong> RFQ workflow platforms, scheduling and ledger tools, an on-premise AI knowledge platform.</li>
         </ul>
-      </section>
-    </main>
+        <a class="button" href="Hannah_Nguyen_resume_2026.pdf">Open the PDF</a>
+      </article>
+    </section>
 
-    <footer>
-      <p>Hannah Ngyx</p>
-      <a href="#top">Back to top</a>
-    </footer>
-  </div>
+    <section class="sheet band" id="contact" aria-labelledby="contact-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2 id="contact-title">Leave a note</h2>
+        </div>
+        <p class="section-note">Roles, collaborations, or a project you cannot stop thinking about.</p>
+      </div>
+      <ul class="contact-list">
+        <li>
+          <span class="contact-label">Email</span>
+          <a href="mailto:nguyenhanh.ac812@gmail.com">nguyenhanh.ac812@gmail.com</a>
+        </li>
+        <li>
+          <span class="contact-label">GitHub</span>
+          <a href="https://github.com/HannahNgyx">github.com/HannahNgyx</a>
+        </li>
+        <li>
+          <span class="contact-label">Resume</span>
+          <a href="Hannah_Nguyen_resume_2026.pdf">Hannah_Nguyen_resume_2026.pdf</a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <p>Hannah Nguyen</p>
+    <a href="#top">Back to the top</a>
+  </footer>
 
   <dialog class="viewer" aria-labelledby="viewer-caption">
     <figure>
@@ -281,102 +323,114 @@
   </dialog>
 
   <script>
-    document.body.classList.add('js');
-
-    const filterButtons = document.querySelectorAll('.filter-button');
-    const projects = document.querySelectorAll('.project');
-    const emptyState = document.querySelector('.empty-state');
-    filterButtons.forEach((button) => button.addEventListener('click', () => {
+    const filterButtons = document.querySelectorAll(".filter-button");
+    const projects = document.querySelectorAll(".project");
+    const emptyState = document.querySelector(".empty-state");
+    filterButtons.forEach((button) => button.addEventListener("click", () => {
       const filter = button.dataset.filter;
       filterButtons.forEach((item) => {
         const active = item === button;
-        item.classList.toggle('is-active', active);
-        if (active) item.setAttribute('aria-pressed', 'true');
-        else item.removeAttribute('aria-pressed');
+        item.classList.toggle("is-active", active);
+        if (active) item.setAttribute("aria-pressed", "true");
+        else item.removeAttribute("aria-pressed");
       });
       let visibleCount = 0;
       projects.forEach((project) => {
-        const visible = filter === 'all' || project.dataset.category === filter;
+        const visible = filter === "all" || project.dataset.category === filter;
         project.hidden = !visible;
         if (visible) visibleCount += 1;
       });
       emptyState.hidden = visibleCount !== 0;
     }));
 
-    const themeToggle = document.querySelector('.theme-toggle');
-    themeToggle.addEventListener('click', () => {
-      const evening = document.documentElement.classList.toggle('evening');
-      themeToggle.setAttribute('aria-pressed', String(evening));
-      themeToggle.setAttribute('aria-label', evening ? 'Switch to daylight' : 'Switch to city lights');
-      themeToggle.textContent = evening ? 'Daylight' : 'City lights';
+    const nav = document.querySelector(".site-nav");
+    const syncNav = () => nav.classList.toggle("is-scrolled", window.scrollY > 8);
+    syncNav();
+    window.addEventListener("scroll", syncNav, { passive: true });
+
+    const toggle = document.querySelector(".menu-toggle");
+    const note = document.querySelector(".contents-note");
+    const setMenu = (open) => {
+      note.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+    };
+    toggle.addEventListener("click", () => setMenu(!note.classList.contains("is-open")));
+    note.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
+    document.addEventListener("click", (event) => {
+      if (!note.classList.contains("is-open")) return;
+      if (note.contains(event.target) || toggle.contains(event.target)) return;
+      setMenu(false);
     });
 
-    document.querySelectorAll('.photo-slot img').forEach((img) => {
-      const slot = img.closest('.photo-slot');
+    document.querySelectorAll(".photo-slot img").forEach((img) => {
+      const slot = img.closest(".photo-slot");
       const mark = () => {
-        if (img.naturalWidth > 0) slot.classList.add('has-photo');
+        if (img.naturalWidth > 0) slot.classList.add("has-photo");
       };
-      img.addEventListener('load', mark);
+      img.addEventListener("load", mark);
       if (img.complete) mark();
     });
 
-    const viewer = document.querySelector('.viewer');
-    const viewerImage = document.querySelector('#viewer-image');
-    const viewerCaption = document.querySelector('#viewer-caption');
+    const viewer = document.querySelector(".viewer");
+    const viewerImage = document.querySelector("#viewer-image");
+    const viewerCaption = document.querySelector("#viewer-caption");
     let pictureIndex = 0;
     let lastTrigger = null;
 
     function filledSlots() {
-      return Array.from(document.querySelectorAll('.photo-slot.has-photo'));
+      return Array.from(document.querySelectorAll(".photo-slot.has-photo"));
     }
 
     function showPicture(nextIndex) {
       const slots = filledSlots();
       if (!slots.length) return;
       pictureIndex = (nextIndex + slots.length) % slots.length;
-      const image = slots[pictureIndex].querySelector('img');
-      const caption = slots[pictureIndex].querySelector('.slot-ready');
+      const image = slots[pictureIndex].querySelector("img");
+      const caption = slots[pictureIndex].querySelector(".slot-ready");
       viewerImage.src = image.currentSrc || image.src;
       viewerImage.alt = image.alt;
-      viewerCaption.textContent = caption ? caption.textContent : '';
+      viewerCaption.textContent = caption ? caption.textContent : "";
     }
 
-    document.querySelectorAll('.photo-slot').forEach((slot) => {
-      slot.addEventListener('click', () => {
-        if (!slot.classList.contains('has-photo')) return;
+    document.querySelectorAll(".photo-slot").forEach((slot) => {
+      slot.addEventListener("click", () => {
+        if (!slot.classList.contains("has-photo")) return;
         lastTrigger = slot;
         showPicture(filledSlots().indexOf(slot));
         viewer.showModal();
       });
-      slot.addEventListener('keydown', (event) => {
-        if (!slot.classList.contains('has-photo')) return;
-        if (event.key !== 'Enter' && event.key !== ' ') return;
+      slot.addEventListener("keydown", (event) => {
+        if (!slot.classList.contains("has-photo")) return;
+        if (event.key !== "Enter" && event.key !== " ") return;
         event.preventDefault();
         slot.click();
       });
     });
 
     const markInteractive = () => {
-      document.querySelectorAll('.photo-slot').forEach((slot) => {
-        const ready = slot.classList.contains('has-photo');
-        if (ready) {
-          slot.tabIndex = 0;
-          slot.setAttribute('role', 'button');
-        }
+      document.querySelectorAll(".photo-slot").forEach((slot) => {
+        if (!slot.classList.contains("has-photo")) return;
+        slot.tabIndex = 0;
+        slot.setAttribute("role", "button");
       });
     };
-    document.querySelectorAll('.photo-slot img').forEach((img) => {
-      img.addEventListener('load', markInteractive);
-    });
+    document.querySelectorAll(".photo-slot img").forEach((img) => img.addEventListener("load", markInteractive));
     markInteractive();
 
-    viewer.querySelectorAll('[data-dir]').forEach((button) => {
-      button.addEventListener('click', () => showPicture(pictureIndex + Number(button.dataset.dir)));
+    viewer.querySelectorAll("[data-dir]").forEach((button) => {
+      button.addEventListener("click", () => showPicture(pictureIndex + Number(button.dataset.dir)));
     });
-    viewer.addEventListener('close', () => { if (lastTrigger) lastTrigger.focus(); });
-    viewer.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowRight') showPicture(pictureIndex + 1);
-      if (event.key === 'ArrowLeft') showPicture(pictureIndex - 1);
+    viewer.addEventListener("close", () => { if (lastTrigger) lastTrigger.focus(); });
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      if (viewer.open) return;
+      if (!note.classList.contains("is-open")) return;
+      setMenu(false);
+      toggle.focus();
+    });
+    viewer.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") showPicture(pictureIndex + 1);
+      if (event.key === "ArrowLeft") showPicture(pictureIndex - 1);
     });
   </script>
 </body>
