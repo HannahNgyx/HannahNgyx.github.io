@@ -304,19 +304,11 @@ h3 {
 
 .picture-row {
   display: grid;
-  grid-template-columns: 1.35fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 0.85rem;
 }
 
-.picture-row .photo-slot:first-child { grid-row: 1 / span 2; }
-
-.picture-row .photo-slot:first-child .frame {
-  height: 100%;
-  min-height: 28rem;
-  aspect-ratio: auto;
-}
-
-.picture-row .photo-slot:nth-child(n + 2) .frame { aspect-ratio: 5 / 3; }
+.picture-row .frame { aspect-ratio: 4 / 5; }
 
 .section-heading {
   display: flex;
@@ -634,8 +626,7 @@ footer p { margin: 0; }
   .hero, .about, .resume-grid, .project-grid, .picture-row { grid-template-columns: 1fr; }
   .hero { gap: 1.6rem; }
   .photo-slot--hero { order: 0; max-width: 20rem; }
-  .picture-row .photo-slot:first-child { grid-row: auto; }
-  .picture-row .photo-slot:first-child .frame { height: auto; min-height: 0; aspect-ratio: 4 / 3; }
+  .picture-row .frame { aspect-ratio: 4 / 3; }
   .project-lead, .project-lead .project-topline { display: block; grid-column: auto; }
   .section-heading { display: block; }
   .section-note { margin-top: 0.7rem; }
