@@ -397,16 +397,6 @@ h1 em {
 
 .clipping p:last-child { font-size: 1.02rem; }
 
-.spread-note {
-  position: absolute;
-  left: 46%;
-  bottom: 8%;
-  margin: 0;
-  color: var(--burgundy);
-  font-size: 1.7rem;
-  transform: rotate(-4deg);
-}
-
 .flower {
   position: absolute;
   left: 50%;
@@ -815,7 +805,7 @@ h1 em {
   .tilt-left, .tilt-right, .scraps li:nth-child(2) { transform: none; }
   .photo-b { margin-top: 0; }
   .clipping { grid-column: auto; }
-  .spread-note, .flower, .stamp { position: static; transform: none; }
+  .flower, .stamp { position: static; transform: none; }
   .flower { width: 4rem; }
   .project-lead,
   .project-lead .project-topline { display: block; grid-column: auto; }
