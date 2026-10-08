@@ -78,7 +78,7 @@ p { margin: 0; }
 }
 
 .site-nav.is-scrolled {
-  background: rgba(247, 240, 230, 0.96);
+  background: var(--ivory);
   box-shadow: 0 1px 0 rgba(23, 21, 20, 0.14);
 }
 
@@ -162,33 +162,44 @@ p { margin: 0; }
 .room {
   position: relative;
   display: grid;
+  grid-template-columns: minmax(0, 34rem) minmax(8rem, 1fr);
   align-items: center;
-  min-height: 100svh;
-  padding: 6.4rem 1.4rem 4.8rem;
-  background:
-    radial-gradient(ellipse at 8% -10%, rgba(255, 244, 220, 0.75), transparent 46%),
-    linear-gradient(115deg, rgba(80, 58, 50, 0.08) 0 7%, transparent 7% 18%, rgba(80, 58, 50, 0.05) 18% 20%, transparent 20%),
-    var(--rose);
+  min-height: 100dvh;
+  padding: 6.6rem clamp(1.2rem, 5vw, 4.5rem) 4.2rem;
+  background: #d7ebe4 url("images/pond.jpg") 18% center / cover no-repeat;
   overflow: hidden;
 }
 
-.poster {
-  position: relative;
+.room::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(13rem, 0.78fr);
-  gap: 1.4rem 2rem;
-  align-items: center;
-  width: min(68rem, 100%);
-  margin: 0 auto;
-  padding: 2.3rem 2.1rem 2rem;
-  background: var(--ivory);
-  border: 12px solid #f3e7dc;
-  outline: 1px solid rgba(80, 58, 50, 0.45);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.7) inset,
-    0 28px 60px rgba(80, 58, 50, 0.28);
-  transform: rotate(-0.35deg);
+  pointer-events: none;
+  opacity: 0.22;
+  background-image: radial-gradient(rgba(80, 58, 50, 0.45) 0.45px, transparent 0.55px);
+  background-size: 3px 3px;
+  mix-blend-mode: multiply;
+}
+
+/* The painting, bent by the cursor. Type sits above it. */
+.field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.pond-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 32rem;
+  color: #1a2422;
+  text-shadow:
+    0 1px 0 rgba(255, 250, 244, 0.72),
+    0 0 22px rgba(215, 235, 228, 0.85);
 }
 
 .eyebrow {
@@ -197,7 +208,33 @@ p { margin: 0; }
   font-size: 0.84rem;
 }
 
-.poster-copy { min-width: 0; }
+.room .button {
+  background: rgba(247, 240, 230, 0.82);
+}
+
+.room .button:hover {
+  background: var(--ink);
+  color: var(--ivory);
+}
+
+.room .signoff {
+  position: absolute;
+  z-index: 2;
+  right: clamp(1.2rem, 7vw, 6.5rem);
+  bottom: clamp(2.2rem, 11vh, 6rem);
+  margin: 0;
+  font-size: clamp(2.4rem, 4vw, 3.3rem);
+  text-shadow:
+    0 1px 0 rgba(255, 250, 244, 0.95),
+    0 0 14px rgba(247, 240, 230, 0.9);
+  transform: rotate(-8deg);
+  pointer-events: none;
+}
+
+.site-nav:not(.is-scrolled) .wordmark,
+.site-nav:not(.is-scrolled) .nav-links a {
+  text-shadow: 0 1px 0 rgba(255, 250, 244, 0.7);
+}
 
 h1 {
   max-width: min(9em, 100%);
@@ -262,11 +299,9 @@ h1 em {
 
 .photo-slot { margin: 0; min-width: 0; }
 
-.photo-slot--hero {
-  position: relative;
-  padding: 0.55rem 0.55rem 1.5rem;
-  background: #fffaf4;
-  box-shadow: 0 14px 28px rgba(80, 58, 50, 0.16);
+.portrait {
+  margin-top: 2.6rem;
+  transform: rotate(1.5deg);
 }
 
 .pin {
@@ -296,7 +331,8 @@ h1 em {
   opacity: 0;
 }
 
-.photo-slot--hero .frame img { object-position: 74% 28%; }
+.portrait .frame { aspect-ratio: 3 / 4; }
+.portrait .frame img { object-position: 74% 28%; }
 
 .photo-slot.has-photo .frame img { opacity: 1; }
 
@@ -331,10 +367,10 @@ h1 em {
 .spread {
   position: relative;
   display: grid;
-  grid-template-columns: 1.15fr 0.82fr;
-  gap: 1.2rem 3rem;
+  grid-template-columns: 0.78fr 1.05fr 0.82fr;
+  gap: 1.2rem 2.2rem;
   align-items: start;
-  width: min(64rem, calc(100% - 3rem));
+  width: min(72rem, calc(100% - 3rem));
   margin: 0 auto;
 }
 
@@ -351,7 +387,8 @@ h1 em {
 
 .spread .frame { aspect-ratio: 4 / 5; }
 .photo-b .frame { aspect-ratio: 1 / 1; }
-.spread .photo-slot:first-child .frame img { object-position: 42% 62%; }
+.spread .portrait .frame { aspect-ratio: 3 / 4; }
+.spread .tilt-left .frame img { object-position: 42% 62%; }
 .photo-b .frame img { object-position: center 42%; }
 
 .photocopy .frame::after {
@@ -795,14 +832,13 @@ h1 em {
 }
 
 @media (max-width: 56rem) {
-  .poster,
   #about,
   .section-heading,
   .project-grid,
   .spread { grid-template-columns: 1fr; }
-  .poster { transform: none; }
-  .photo-slot--hero { max-width: 18rem; }
-  .tilt-left, .tilt-right, .scraps li:nth-child(2) { transform: none; }
+  .pond-copy { max-width: 28rem; }
+  .portrait { max-width: 18rem; margin-top: 0; }
+  .portrait, .tilt-left, .tilt-right, .scraps li:nth-child(2) { transform: none; }
   .photo-b { margin-top: 0; }
   .clipping { grid-column: auto; }
   .flower, .stamp { position: static; transform: none; }
@@ -879,9 +915,18 @@ h1 em {
 
 @media (max-width: 40rem) {
   .site-nav { padding-inline: 0.7rem; }
-  .room { padding: 5.2rem 0.7rem 2.6rem; overflow: hidden; }
-  .poster { width: 100%; padding: 1.15rem 0.9rem 1.1rem; border-width: 7px; }
-  h1 { font-size: 2.05rem; max-width: 15rem; }
+  .room {
+    grid-template-columns: 1fr;
+    align-items: end;
+    padding: 5.4rem 1rem 2.8rem;
+    overflow: hidden;
+  }
+  .room .signoff {
+    position: static;
+    margin-top: 0.8rem;
+    transform: rotate(-4deg);
+  }
+  h1 { font-size: clamp(2.5rem, 12vw, 3.5rem); max-width: 12em; }
   .lede, .section-note, .job-body, .project-lede, .about-copy { max-width: 18rem; }
   .lede { font-size: 1rem; }
   .sheet,
@@ -900,7 +945,8 @@ h1 em {
 }
 
 @media print {
-  .site-nav, .filters, .viewer, .hero-actions, .menu-toggle { display: none; }
+  .site-nav, .filters, .viewer, .hero-actions, .menu-toggle, .field { display: none; }
   .room { background: white; min-height: 0; padding-top: 0; }
+  .room::after { display: none; }
   .project, .job { break-inside: avoid; }
 }

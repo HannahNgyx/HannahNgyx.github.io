@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hannah Nguyen</title>
   <meta name="description" content="Hannah Nguyen, a software developer building useful, thoughtful tools.">
-  <meta name="theme-color" content="#D99AA5">
+  <meta name="theme-color" content="#c5ddd4">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=Caveat:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=18">
+  <link rel="stylesheet" href="style.css?v=23">
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
@@ -41,18 +41,22 @@
 
   <main id="main">
     <section class="room" aria-labelledby="hero-title">
-      <div class="poster">
-        <div class="poster-copy">
-          <p class="eyebrow">Software developer</p>
-          <h1 id="hero-title">Making useful things <em>with a little soul.</em></h1>
-          <p class="lede">I am Hannah, a developer who likes turning messy problems into calm, human tools. I work across web apps, desktop companions, and small experiments that make everyday life feel a bit more possible.</p>
-          <p class="signoff">xoxo</p>
-          <div class="hero-actions">
-            <a class="button" href="#work">The experience</a>
-            <a class="text-link" href="#contact">Say hello</a>
-          </div>
+      <canvas class="field" aria-hidden="true"></canvas>
+      <div class="pond-copy">
+        <p class="eyebrow">Software developer</p>
+        <h1 id="hero-title">Making useful things <em>with a little soul.</em></h1>
+        <p class="lede">I am Hannah, a developer who likes turning messy problems into calm, human tools. I work across web apps, desktop companions, and small experiments that make everyday life feel a bit more possible.</p>
+        <div class="hero-actions">
+          <a class="button" href="#work">The experience</a>
+          <a class="text-link" href="#contact">Say hello</a>
         </div>
-        <figure class="photo-slot photo-slot--hero">
+      </div>
+      <p class="signoff">xoxo</p>
+    </section>
+
+    <section class="spread-wrap" aria-label="Pictures">
+      <div class="spread">
+        <figure class="photo-slot mat portrait">
           <span class="pin" aria-hidden="true"></span>
           <div class="frame">
             <img src="images/portrait.jpg" alt="Portrait of Hannah">
@@ -60,11 +64,6 @@
           </div>
           <figcaption class="slot-ready">Portrait</figcaption>
         </figure>
-      </div>
-    </section>
-
-    <section class="spread-wrap" aria-label="Pictures">
-      <div class="spread">
         <figure class="photo-slot mat tilt-left">
           <span class="tape tape-pink" aria-hidden="true"></span>
           <div class="frame">
@@ -322,6 +321,263 @@
   </dialog>
 
   <script>
+    /* The pond is one painting. The pointer drops ripples, and a shader
+       bends the painting along them so the water moves under the cursor. */
+    (function pond() {
+      const room = document.querySelector(".room");
+      const canvas = document.querySelector(".field");
+      if (!room || !canvas) return;
+      const gl = canvas.getContext("webgl", { alpha: true, antialias: false, premultipliedAlpha: true });
+      if (!gl) return;
+
+      const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const DROP_COUNT = 12;
+      let width = 0;
+      let height = 0;
+      let frame = 0;
+      let running = false;
+      let reduce = motionQuery.matches;
+      let onscreen = false;
+      let imageReady = false;
+      const pointer = { x: 0.32, y: 0.55, active: false, wake: 0 };
+      const drops = new Float32Array(DROP_COUNT * 3);
+      drops.fill(-1);
+      let dropIndex = 0;
+      let lastDrop = { x: -1, y: -1, t: 0 };
+
+      let dropGlsl = "";
+      for (let i = 0; i < DROP_COUNT; i += 1) {
+        dropGlsl += `
+          {
+            float born = uDrops[${i}].z;
+            float age = uTime - born;
+            float alive = step(0.0, born) * step(0.0, age) * step(age, 3.4);
+            vec2 d = uv - uDrops[${i}].xy;
+            float dist = length(d);
+            float wave = sin(dist * 90.0 - age * 7.0);
+            float env = exp(-dist * 9.0) * exp(-age * 1.15);
+            vec2 dir = dist > 0.0008 ? d / dist : vec2(0.0);
+            offset += dir * wave * env * alive * 0.016;
+          }
+        `;
+      }
+
+      const vertSrc = `
+        attribute vec2 aPos;
+        varying vec2 vUv;
+        void main() {
+          vUv = aPos * 0.5 + 0.5;
+          gl_Position = vec4(aPos, 0.0, 1.0);
+        }
+      `;
+      const fragSrc = `
+        precision mediump float;
+        uniform sampler2D uPond;
+        uniform vec2 uOrigin;
+        uniform vec2 uSpan;
+        uniform float uTime;
+        uniform vec2 uCursor;
+        uniform float uWake;
+        uniform vec3 uDrops[${DROP_COUNT}];
+        varying vec2 vUv;
+        void main() {
+          vec2 uv = vUv;
+          vec2 offset = vec2(
+            sin(uv.y * 18.0 + uTime * 0.45) * 0.0028 + sin(uv.x * 9.0 - uTime * 0.22) * 0.0012,
+            cos(uv.x * 14.0 + uTime * 0.32) * 0.0028
+          );
+          vec2 wake = uv - uCursor;
+          float wd = length(wake);
+          float wakeAmp = exp(-wd * 16.0) * uWake;
+          vec2 wdir = wd > 0.0008 ? wake / wd : vec2(0.0);
+          offset += wdir * sin(wd * 70.0 - uTime * 5.5) * wakeAmp * 0.014;
+          ${dropGlsl}
+          vec2 sampleUv = clamp(uOrigin + (uv + offset) * uSpan, vec2(0.001), vec2(0.999));
+          vec4 color = texture2D(uPond, sampleUv);
+          float crest = clamp(length(offset) * 20.0, 0.0, 1.0);
+          color.rgb += vec3(0.95, 0.98, 0.96) * crest * 0.32;
+          color.rgb *= 1.0 - crest * 0.08;
+          gl_FragColor = color;
+        }
+      `;
+
+      function compile(type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          console.error(gl.getShaderInfoLog(shader));
+          return null;
+        }
+        return shader;
+      }
+
+      const vert = compile(gl.VERTEX_SHADER, vertSrc);
+      const frag = compile(gl.FRAGMENT_SHADER, fragSrc);
+      if (!vert || !frag) return;
+      const program = gl.createProgram();
+      gl.attachShader(program, vert);
+      gl.attachShader(program, frag);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        console.error(gl.getProgramInfoLog(program));
+        return;
+      }
+      gl.useProgram(program);
+
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+        -1, -1, 1, -1, -1, 1,
+        -1, 1, 1, -1, 1, 1
+      ]), gl.STATIC_DRAW);
+      const aPos = gl.getAttribLocation(program, "aPos");
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+      const uOrigin = gl.getUniformLocation(program, "uOrigin");
+      const uSpan = gl.getUniformLocation(program, "uSpan");
+      const uTime = gl.getUniformLocation(program, "uTime");
+      const uCursor = gl.getUniformLocation(program, "uCursor");
+      const uWake = gl.getUniformLocation(program, "uWake");
+      const uDrops = gl.getUniformLocation(program, "uDrops[0]");
+      gl.uniform1i(gl.getUniformLocation(program, "uPond"), 0);
+
+      const texture = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.clearColor(0, 0, 0, 0);
+
+      let imgW = 16;
+      let imgH = 9;
+      const painting = new Image();
+      painting.onload = () => {
+        imgW = painting.naturalWidth || imgW;
+        imgH = painting.naturalHeight || imgH;
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, painting);
+        imageReady = true;
+        draw(performance.now());
+        if (!reduce && onscreen) start();
+      };
+      painting.src = "images/pond.jpg";
+
+      function cover() {
+        const canvasAspect = width / Math.max(height, 1);
+        const imageAspect = imgW / imgH;
+        let spanX = 1;
+        let spanY = 1;
+        if (canvasAspect > imageAspect) spanY = imageAspect / canvasAspect;
+        else spanX = canvasAspect / imageAspect;
+        const biasX = width < 760 ? 0.12 : 0.22;
+        gl.uniform2f(uOrigin, (1 - spanX) * biasX, (1 - spanY) * 0.5);
+        gl.uniform2f(uSpan, spanX, spanY);
+      }
+
+      function measure() {
+        const box = room.getBoundingClientRect();
+        if (box.width === width && box.height === height) return;
+        width = box.width;
+        height = box.height;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.max(1, Math.round(width * dpr));
+        canvas.height = Math.max(1, Math.round(height * dpr));
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      }
+
+      function pushDrop(u, v, now) {
+        const base = dropIndex * 3;
+        drops[base] = u;
+        drops[base + 1] = v;
+        drops[base + 2] = now;
+        dropIndex = (dropIndex + 1) % DROP_COUNT;
+        lastDrop = { x: u, y: v, t: now };
+      }
+
+      function draw(now) {
+        if (!imageReady) return;
+        const t = now * 0.001;
+        pointer.wake += ((pointer.active ? 1 : 0) - pointer.wake) * 0.08;
+        gl.uniform1f(uTime, t);
+        gl.uniform2f(uCursor, pointer.x, pointer.y);
+        gl.uniform1f(uWake, pointer.wake);
+        gl.uniform3fv(uDrops, drops);
+        cover();
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+      }
+
+      function step(now) {
+        if (!running) return;
+        draw(now);
+        frame = requestAnimationFrame(step);
+      }
+
+      function start() {
+        if (reduce || running || !imageReady) return;
+        running = true;
+        step(performance.now());
+      }
+
+      function stop() {
+        running = false;
+        cancelAnimationFrame(frame);
+      }
+
+      function placePointer(event) {
+        const box = room.getBoundingClientRect();
+        const u = (event.clientX - box.left) / Math.max(box.width, 1);
+        const v = 1 - ((event.clientY - box.top) / Math.max(box.height, 1));
+        pointer.x = u;
+        pointer.y = v;
+        pointer.active = true;
+        const now = performance.now() * 0.001;
+        const dist = Math.hypot(u - lastDrop.x, v - lastDrop.y);
+        if (dist > 0.045 || now - lastDrop.t > 0.16) pushDrop(u, v, now);
+      }
+
+      room.addEventListener("pointermove", placePointer);
+      room.addEventListener("pointerdown", (event) => {
+        placePointer(event);
+        pushDrop(pointer.x, pointer.y, performance.now() * 0.001);
+      });
+      room.addEventListener("pointerleave", () => {
+        pointer.active = false;
+      });
+
+      const seen = new IntersectionObserver((entries) => {
+        onscreen = entries.some((entry) => entry.isIntersecting);
+        if (reduce) return;
+        if (onscreen) start();
+        else stop();
+      }, { threshold: 0.02 });
+
+      new ResizeObserver(() => {
+        measure();
+        if (imageReady) draw(performance.now());
+      }).observe(room);
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stop();
+        else if (!reduce && onscreen) start();
+      });
+
+      motionQuery.addEventListener("change", () => {
+        reduce = motionQuery.matches;
+        canvas.style.visibility = reduce ? "hidden" : "";
+        if (reduce) stop();
+        else start();
+      });
+
+      measure();
+      seen.observe(room);
+      if (reduce) canvas.style.visibility = "hidden";
+      else onscreen = true;
+    }());
+
     const filterButtons = document.querySelectorAll(".filter-button");
     const projects = document.querySelectorAll(".project");
     const emptyState = document.querySelector(".empty-state");
