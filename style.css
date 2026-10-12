@@ -30,7 +30,7 @@ html {
 body {
   margin: 0;
   color: var(--ink);
-  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  font-family: "Source Serif 4", "Noto Serif SC", "Noto Naskh Arabic", Georgia, "Times New Roman", serif;
   font-size: 1.05rem;
   line-height: 1.65;
   overflow-x: hidden;
@@ -42,7 +42,7 @@ a { color: inherit; }
 
 h1, h2, h3 {
   margin: 0;
-  font-family: "Cormorant Garamond", "Palatino Linotype", Palatino, serif;
+  font-family: "Cormorant Garamond", "Noto Serif SC", "Noto Naskh Arabic", "Palatino Linotype", Palatino, serif;
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 0.92;
@@ -52,7 +52,7 @@ p { margin: 0; }
 
 .skip {
   position: absolute;
-  left: 0.8rem;
+  inset-inline-start: 0.8rem;
   top: -3rem;
   z-index: 50;
   background: var(--ivory);
@@ -68,7 +68,7 @@ p { margin: 0; }
   right: 0;
   z-index: 40;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, auto) minmax(0, 1fr);
   align-items: center;
   gap: 1rem;
   min-height: 4.1rem;
@@ -95,7 +95,10 @@ p { margin: 0; }
 
 .nav-links {
   display: flex;
-  gap: 1.15rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.55rem 1.15rem;
+  max-width: 100%;
 }
 
 .nav-links a,
@@ -111,7 +114,7 @@ p { margin: 0; }
 .project-topline,
 .viewer-bar button,
 .colophon {
-  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-family: "Barlow Condensed", "Noto Serif SC", "Noto Naskh Arabic", "Arial Narrow", sans-serif;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -124,11 +127,33 @@ p { margin: 0; }
 
 .nav-links a:hover { color: var(--burgundy); }
 
-.issue {
+.bar-end {
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.issue {
   margin: 0;
   color: var(--burgundy);
   font-size: 0.82rem;
+}
+
+.locale-switch {
+  appearance: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--ivory);
+  color: var(--burgundy);
+  font-family: "Barlow Condensed", "Noto Serif SC", "Noto Naskh Arabic", "Arial Narrow", sans-serif;
+  font-weight: 500;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.45rem;
+  cursor: pointer;
 }
 
 .bar-issue {
@@ -153,7 +178,7 @@ p { margin: 0; }
 .signoff,
 .slot-ready,
 .scraps li {
-  font-family: "Caveat", "Segoe Script", cursive;
+  font-family: "Caveat", "Noto Serif SC", "Noto Naskh Arabic", "Segoe Script", cursive;
   font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
@@ -220,7 +245,7 @@ p { margin: 0; }
 .room .signoff {
   position: absolute;
   z-index: 2;
-  right: clamp(1.2rem, 7vw, 6.5rem);
+  inset-inline-end: clamp(1.2rem, 7vw, 6.5rem);
   bottom: clamp(2.2rem, 11vh, 6rem);
   margin: 0;
   font-size: clamp(2.4rem, 4vw, 3.3rem);
@@ -290,7 +315,7 @@ h1 em {
 
 .text-link,
 .project-link {
-  font-family: "Source Serif 4", Georgia, serif;
+  font-family: "Source Serif 4", "Noto Serif SC", "Noto Naskh Arabic", Georgia, serif;
   letter-spacing: 0;
   text-transform: none;
 }
@@ -490,7 +515,9 @@ h1 em {
 
 .about-copy p:first-child::first-letter {
   float: left;
-  padding: 0.15rem 0.45rem 0 0;
+  float: inline-start;
+  padding-block-start: 0.15rem;
+  padding-inline-end: 0.45rem;
   color: var(--burgundy);
   font-family: "Cormorant Garamond", Palatino, serif;
   font-size: 4.3rem;
@@ -574,13 +601,13 @@ h1 em {
 .job-body li {
   position: relative;
   margin-top: 0.45rem;
-  padding-left: 0.85rem;
+  padding-inline-start: 0.85rem;
 }
 
 .job-body li::before {
   content: "";
   position: absolute;
-  left: 0;
+  inset-inline-start: 0;
   top: 0.72em;
   width: 0.4rem;
   height: 1px;
@@ -824,7 +851,7 @@ h1 em {
 }
 
 .viewer-bar button:hover { color: var(--burgundy); }
-.viewer-bar form { margin-left: auto; }
+.viewer-bar form { margin-inline-start: auto; }
 
 :focus-visible {
   outline: 2px solid var(--burgundy);
@@ -857,7 +884,7 @@ h1 em {
 @media (max-width: 52rem) {
   html.js .nav-links,
   html.js .bar-issue { display: none; }
-  .menu-toggle { display: inline-flex; flex: 0 0 auto; margin-left: auto; }
+  .menu-toggle { display: inline-flex; flex: 0 0 auto; margin-inline-start: auto; }
   .site-nav {
     display: flex;
     justify-content: space-between;
@@ -868,7 +895,7 @@ h1 em {
     display: block;
     position: absolute;
     top: calc(100% + 0.35rem);
-    right: 0.7rem;
+    inset-inline-end: 0.7rem;
     width: min(16.5rem, calc(100vw - 1.4rem));
     padding: 1.15rem 1.05rem 0.9rem;
     background:
@@ -949,4 +976,89 @@ h1 em {
   .room { background: white; min-height: 0; padding-top: 0; }
   .room::after { display: none; }
   .project, .job { break-inside: avoid; }
+}
+
+/* Script fonts and direction. The collage stays in physical left/right space. */
+html[lang="vi"] h1,
+html[lang="zh"] h1,
+html[lang="ar"] h1,
+html[lang="vi"] .sheet h2,
+html[lang="zh"] .sheet h2,
+html[lang="ar"] .sheet h2 {
+  max-width: 100%;
+}
+
+html[lang="zh"] body,
+html[lang="zh"] h1,
+html[lang="zh"] h2,
+html[lang="zh"] h3,
+html[lang="zh"] .text-link,
+html[lang="zh"] .project-link,
+html[lang="zh"] .contents-note nav a {
+  font-family: "Noto Serif SC", "Source Serif 4", Georgia, serif;
+  letter-spacing: 0;
+}
+
+html[lang="zh"] .scribble,
+html[lang="zh"] .signoff,
+html[lang="zh"] .slot-ready,
+html[lang="zh"] .scraps li,
+html[lang="zh"] .slot-empty span,
+html[lang="zh"] .viewer figcaption {
+  font-family: "Noto Serif SC", "Caveat", cursive;
+}
+
+html[lang="zh"] .nav-links a,
+html[lang="zh"] .menu-toggle,
+html[lang="zh"] .issue,
+html[lang="zh"] .eyebrow,
+html[lang="zh"] .tag,
+html[lang="zh"] .job-when,
+html[lang="zh"] .job-where,
+html[lang="zh"] .job-place,
+html[lang="zh"] .contact-label,
+html[lang="zh"] .button,
+html[lang="zh"] .filter-button,
+html[lang="zh"] .locale-switch,
+html[lang="zh"] .edu span,
+html[lang="zh"] .toolkit strong,
+html[lang="zh"] .viewer-bar button {
+  font-family: "Noto Serif SC", "Barlow Condensed", sans-serif;
+  letter-spacing: 0.04em;
+}
+
+html[lang="ar"] body,
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] .text-link,
+html[lang="ar"] .project-link,
+html[lang="ar"] .contents-note nav a,
+html[lang="ar"] .scribble,
+html[lang="ar"] .signoff,
+html[lang="ar"] .slot-ready,
+html[lang="ar"] .scraps li,
+html[lang="ar"] .slot-empty span,
+html[lang="ar"] .viewer figcaption {
+  font-family: "Noto Naskh Arabic", "Source Serif 4", Georgia, serif;
+  letter-spacing: 0;
+}
+
+html[lang="ar"] .nav-links a,
+html[lang="ar"] .menu-toggle,
+html[lang="ar"] .issue,
+html[lang="ar"] .eyebrow,
+html[lang="ar"] .tag,
+html[lang="ar"] .job-when,
+html[lang="ar"] .job-where,
+html[lang="ar"] .job-place,
+html[lang="ar"] .contact-label,
+html[lang="ar"] .button,
+html[lang="ar"] .filter-button,
+html[lang="ar"] .locale-switch,
+html[lang="ar"] .edu span,
+html[lang="ar"] .toolkit strong,
+html[lang="ar"] .viewer-bar button {
+  font-family: "Noto Naskh Arabic", "Barlow Condensed", sans-serif;
+  letter-spacing: 0;
 }
