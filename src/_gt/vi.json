@@ -1,1 +1,180 @@
-{}
+{
+  "020434c69c0e51a6": "Về đầu trang",
+  "0308991226fe08fa": "Mục lục",
+  "04771905f2b677c8": "Từ những công cụ thiết thực, những thử nghiệm thú vị đến những dự án vẫn mang lại cho tôi nhiều bài học mới.",
+  "04c8de10cb7c46ac": "Góc này chưa có dự án nào. Bạn thử bộ lọc khác nhé.",
+  "04fc1b5301551660": "Kỹ sư sáng lập",
+  "051424c15592b902": "Học vấn",
+  "0f902d8ad70ddb88": "Để lại lời nhắn",
+  "0f92bf7cee264215": "Những nơi tôi đã làm việc",
+  "1265436771ae9e8c": "Những người bạn đồng hành số",
+  "16474c74875098e2": "Điều phối việc tích hợp giữa các mô hình học máy, hệ thống nhúng và quy trình kiểm định, giúp giảm 30% thời gian tích hợp và gỡ lỗi.",
+  "16acdf4371bff387": "Kiểm tra tình trạng hoạt động của FastAPI",
+  "1e0a286938aa9641": "Hình ảnh",
+  "20e2109aaa1cedcc": "Liên tục cải tiến các luồng này qua những buổi trải nghiệm với người dùng giai đoạn đầu, giúp người dùng cảm nhận rõ hơn giá trị của sản phẩm và tăng tỷ lệ kích hoạt khoảng 40%.",
+  "22c70b5dffb8f728": "Những giao diện biết lắng nghe",
+  "22ef685c88015afd": "Làm việc từ xa, Hoa Kỳ",
+  "268ee387bee85290": "Từ bàn làm việc",
+  "2713e2918ae87fcc": "Công việc",
+  "2926627e2f999e4c": "Nhập liệu bằng giọng nói và văn bản",
+  "2cd1eddb0eb3c54c": "Cài đặt ưu tiên lưu cục bộ",
+  "2f4ef70d15027bb0": "Ghi chép",
+  "3115f1b27905c9c5": "Phần mềm tốt nên mang lại cảm giác như một căn phòng được chăm chút kỹ lưỡng.",
+  "316ac452c3c225a4": "Chân dung",
+  "36bb4df54b878787": "Đang triển khai",
+  "376770374f6f79a9": "Vẫn những mối quan tâm ấy, được lưu giữ trong những trang ghi chép như một cuốn nhật ký.",
+  "38044f48a4ba2a2a": "Nhà nghiên cứu tích hợp hệ thống",
+  "3a16e63273d7d383": "Dự án",
+  "3d0ca69804b7837d": "Lối tắt trên khay hệ thống + chuỗi ngày liên tiếp",
+  "3d9761e81798fcd8": "CV",
+  "3df9c49976cb55bf": "Các mục",
+  "42c7ef2604bdd642": "Giải pháp bàn giao theo thời gian thực giúp các đội cấp cứu chia sẻ thông tin cần thiết trước khi bệnh nhân đến.",
+  "480300bc71008950": "Quy tắc suy đoán dòng tiền qua ví",
+  "480646ceb98c7163": "Đóng",
+  "4933d98ab24f1fa4": "Tôi quan tâm đến sự giao thoa giữa kỹ thuật và con người: những chi tiết nhỏ giúp mọi thứ dễ hiểu hơn, dễ chịu hơn khi sử dụng, hay đơn giản là mang lại thêm một chút niềm vui.",
+  "53fd7b7665eb91a2": "Triển khai nền tảng tri thức AI tuân thủ CMMC theo hình thức triển khai tại chỗ bằng Python, PostgreSQL, Docker và các mô hình chạy cục bộ, giảm thời gian truy xuất từ 15–30 phút xuống dưới 2 phút.",
+  "550501863543b65c": "Next.js + WebSockets",
+  "585c7f9fef80e384": "Chuyển đến nội dung",
+  "5c348ed98b6c9041": "Một người bạn nhỏ trên Windows, đi dạo khắp màn hình và luôn nhớ nhắc bạn uống nước.",
+  "5fe787eee8f39fab": "Xây dựng nền tảng lập lịch và sổ cái dùng chung giữa các công ty bằng Python, React và TypeScript, giúp rút ngắn việc điều phối cuộc họp và theo dõi tín dụng thủ công từ nhiều giờ xuống còn khoảng 10 phút.",
+  "5ffdb753000abfcb": "Kết nối giao diện người dùng với FastAPI và Node.js để cung cấp dữ liệu trực tiếp cho bản trình diễn, đồng thời giảm độ trễ API khoảng 35% trong quá trình gỡ lỗi tích hợp bằng nhật ký và dữ liệu đo từ xa.",
+  "628cf860c6adab38": "Hannah đi bộ trên lối nhỏ rợp bóng giữa những ngôi nhà",
+  "64ee75d1e252baa2": "Khám phá dự án",
+  "6790c630296e29eb": "Lập trình viên phần mềm",
+  "6961bfb508351ade": "Gửi lời chào",
+  "69c39994e45c54ae": "Mục lục",
+  "6a8dd7273263c3e0": "Xây dựng các quy trình nhập dữ liệu từ CSV và PDF, giúp giảm 85% khối lượng nhập liệu thủ công và tăng khả năng xử lý dữ liệu.",
+  "6c711c1ef73321c3": "Công cụ vui nhộn",
+  "76c70ff7082bc355": "một lời nhắn cho chính mình",
+  "773bdc735bccc784": "Gói gọn trong một trang, sẵn sàng để in. Bản chi tiết nằm ở phần công việc phía trên.",
+  "77b5f98f1f9a4ca7": "Tiếp",
+  "7be0c393d34092d8": "Giới thiệu",
+  "7e5f31e51c431513": "Bộ công cụ",
+  "86b57bc1d59cb1c3": "Electron cho Windows",
+  "87d102130b7c6234": "Các nền tảng quản lý quy trình YÊU CẦU BÁO GIÁ, công cụ lập lịch và sổ cái, cùng một nền tảng tri thức AI triển khai tại chỗ.",
+  "8b3b03b05e4a76b3": "Dữ liệu + web",
+  "8bf4779a63f65754": [
+    {
+      "i": 1,
+      "k": "azimuth",
+      "v": "v"
+    },
+    " và ",
+    {
+      "i": 2,
+      "k": "tarmac",
+      "v": "v"
+    },
+    " đều là nơi tôi đang làm việc. ",
+    {
+      "i": 3,
+      "k": "zyro",
+      "v": "v"
+    },
+    " và ",
+    {
+      "i": 4,
+      "k": "mitek",
+      "v": "v"
+    },
+    " là những chặng đường ngay trước đó."
+  ],
+  "8e50d611ae86352d": "Lọc dự án",
+  "8e6b7d84f4ddd2e3": "Cơ hội việc làm, hợp tác, hay một dự án khiến bạn không ngừng nghĩ đến.",
+  "8ecb9b38cef3be3f": [
+    "Lập trình viên phần mềm tại ",
+    {
+      "i": 1,
+      "k": "azimuth",
+      "v": "v"
+    },
+    " và ",
+    {
+      "i": 2,
+      "k": "tarmac",
+      "v": "v"
+    },
+    "."
+  ],
+  "908c685747ce4fe9": "Tất cả dự án",
+  "914dba8c8a3b087c": "Ann Arbor, MI",
+  "956ca5d3267e7b5e": "Liên hệ",
+  "97b9165979f9409c": "Chăm sóc + con người",
+  "9ca57d27c563a180": "Cấu trúc Docker Compose",
+  "9e730599ed5d3247": "Tôi quan tâm đến sự giao thoa giữa kỹ thuật và con người.",
+  "9e8a35f2e143b09e": "Điều tra và xử lý hơn 100 sự cố trong môi trường vận hành thực tế liên quan đến API phía máy chủ, cơ sở dữ liệu và ứng dụng phía người dùng, dựa trên nhật ký, phản hồi API và dữ liệu đo từ xa. Số sự cố tái diễn giảm khoảng 20%.",
+  "a1431b6991bb1ae5": "Một dự án để học hỏi: bắt đầu với một trình thu thập dữ liệu được xây dựng cẩn thận, rồi mở rộng để hỗ trợ xử lý đồng thời.",
+  "aa39c8d4b0caedfb": "Trước",
+  "ae80b77d2d72e786": "Thương mến",
+  "b82ee5ee23fcf665": "Vùng Vịnh, Hoa Kỳ",
+  "b9c24efb6e0f1f55": "Từ xử lý tuần tự đến xử lý đồng thời",
+  "b9dd0b79e5f3c027": "Gỡ lỗi các dịch vụ Rails và quy trình xử lý dữ liệu PostgreSQL, đảm bảo API hoạt động đúng, duy trì tính toàn vẹn của dữ liệu và độ chính xác của hơn 50.000 bản ghi chứng nhận năng lượng.",
+  "bb6d572835125be1": "Thành phố New York, Hoa Kỳ",
+  "bc0cfea7e544f6fd": "Cửa sổ",
+  "c3712025d77a8b42": [
+    "Tạo nên những điều hữu ích ",
+    {
+      "c": "với một chút hồn riêng.",
+      "i": 1,
+      "t": "em"
+    }
+  ],
+  "c5e13446e748dc4f": "Trước đây",
+  "c7350b072bbb1aba": "Xuất dạng văn bản và CSV",
+  "c90f872cf30f5c1b": [
+    "Kỹ sư sáng lập tại ",
+    {
+      "i": 1,
+      "k": "zyro",
+      "v": "v"
+    },
+    ", nghiên cứu tích hợp hệ thống tại ",
+    {
+      "i": 2,
+      "k": "mitek",
+      "v": "v"
+    },
+    "."
+  ],
+  "cad3d0f46c7addf4": "Ảnh của bạn",
+  "cc5f568e5530d37b": "Mở bản PDF",
+  "d19e0dda0828003c": "Hiện tại",
+  "d86c44448ebb37ce": "Lập trình viên phần mềm",
+  "d90eb0858a441516": "Xây dựng và đánh giá các quy trình xử lý thị giác máy tính bằng Detectron2, Python và C++, giúp tăng độ chính xác trong phát hiện bất thường lên 25%.",
+  "d9da631866bd0e80": "Kinh nghiệm",
+  "da3e8e36958fdcfb": "Hành trình",
+  "de7d37bb3798c868": [
+    "Tôi từng học khoa học máy tính tại ",
+    {
+      "i": 1,
+      "k": "school",
+      "v": "v"
+    },
+    ". Hiện tôi làm việc với Python, TypeScript, React, Flask, cùng các cơ sở dữ liệu và công cụ đám mây giúp sản phẩm vận hành ổn định."
+  ],
+  "df2b38cf5e5582bb": "Hình bóng Hannah phản chiếu trên ô cửa kính có rèm đỏ",
+  "e03dde787d0157d2": "Một bảng điều khiển nhỏ gọn, trực quan giúp theo dõi các giao dịch chuyển tiền lớn trên Ethereum mà vẫn nắm được diễn biến.",
+  "e1278eabb4e9b0fc": "mục lục",
+  "e2a6d8ca37cbfdb9": "Phát triển nền tảng quản lý quy trình YÊU CẦU BÁO GIÁ bằng Python và Flask, tích hợp FileMaker và Microsoft 365, phục vụ hơn 10 người dùng. Nền tảng xử lý khoảng 20–25 YÊU CẦU BÁO GIÁ mỗi tháng, giúp tiết kiệm khoảng 8 giờ theo dõi thủ công mỗi tuần.",
+  "eba20a608560979f": "Bước khởi đầu để xây dựng một trợ lý cá nhân về tin tức và tài liệu, giúp thông tin hữu ích luôn trong tầm tay.",
+  "ebb24760d355bb57": "Bản tóm lược trên giấy",
+  "ef1b3c600aad7d02": "Chút phép màu hữu ích",
+  "effdcd633af15789": "Email",
+  "f083c127916702d8": "FastAPI + HTML tĩnh",
+  "f159e132b9418033": [
+    "Tôi là ",
+    {
+      "i": 1,
+      "k": "name",
+      "v": "v"
+    },
+    ", một nhà phát triển thích biến những vấn đề rối rắm thành công cụ nhẹ nhàng, gần gũi với người dùng. Tôi phát triển ứng dụng web, ứng dụng hỗ trợ trên máy tính và những thử nghiệm nhỏ giúp cuộc sống hằng ngày dễ dàng hơn đôi chút."
+  ],
+  "f360a47599f4970c": "Một vài sản phẩm tôi đã tạo ra",
+  "f6ec5879a846b251": "Phối hợp với nhóm Sản phẩm và Thiết kế xây dựng nguyên mẫu các luồng hướng dẫn người dùng mới và kích hoạt có ứng dụng AI, phục vụ trình diễn và hoạch định chiến lược nội bộ. Thử nghiệm nội bộ cho thấy hiệu quả tăng khoảng 25–35%.",
+  "f8d1020979539fe1": "Tập 01 — 2026",
+  "f970a0312090d9d2": "Cử nhân Khoa học máy tính",
+  "f98f0eff37519898": "Medplum FHIR + Deepgram",
+  "fc4578f412a8642e": "Ảnh chân dung Hannah",
+  "fe3298e2a92d1971": "Ghi bên lề"
+}

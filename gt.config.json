@@ -1,9 +1,14 @@
 {
   "defaultLocale": "en",
-  "locales": ["vi", "ar", "zh"],
+  "locales": [
+    "vi",
+    "ar",
+    "zh"
+  ],
   "files": {
     "gt": {
       "output": "src/_gt/[locale].json"
     }
-  }
+  },
+  "_versionId": "f98fb2a936a1f9240b3f96330c1d32bf270829400ff52d92cc830a9f9f54d5e8"
 }

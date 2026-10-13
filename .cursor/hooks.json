@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeReadFile": [
+      {
+        "command": "\"C:\\Program Files\\nodejs\\node.exe\" .cursor/hooks/deny-secrets.js",
+        "failClosed": true
+      }
+    ],
+    "beforeTabFileRead": [
+      {
+        "command": "\"C:\\Program Files\\nodejs\\node.exe\" .cursor/hooks/deny-secrets.js",
+        "failClosed": true
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": "\"C:\\Program Files\\nodejs\\node.exe\" .cursor/hooks/deny-secrets.js",
+        "failClosed": true
+      }
+    ],
+    "preToolUse": [
+      {
+        "command": "\"C:\\Program Files\\nodejs\\node.exe\" .cursor/hooks/deny-secrets.js",
+        "failClosed": true
+      }
+    ]
+  }
+}
