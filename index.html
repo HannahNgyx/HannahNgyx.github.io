@@ -714,7 +714,6 @@
       camera.position.set(0, 0, 8);
 
       const lily = {
-        scale: 0.5,
         rows: 24,
         cols: 8,
         flowerTiltDeg: 24,
@@ -852,7 +851,6 @@
           }
         });
         addCenter(flower);
-        flower.scale.setScalar(lily.scale);
         return flower;
       }
 
@@ -891,8 +889,20 @@
         }
       }
 
-      const flower = makeLily();
-      scene.add(flower);
+      const painting = { width: 1280, height: 720 };
+      const prototype = makeLily();
+      const spots = [
+        { imageU: 0.384, imageV: 0.741, scale: 0.3, yaw: 0.35 },
+        { imageU: 0.48, imageV: 0.178, scale: 0.22, yaw: -0.55 },
+        { imageU: 0.685, imageV: 0.691, scale: 0.46, yaw: 0.12 }
+      ].map((spot) => {
+        const flower = prototype.clone(true);
+        flower.scale.setScalar(spot.scale);
+        spot.flower = flower;
+        spot.anchor = new THREE.Vector3();
+        scene.add(flower);
+        return spot;
+      });
 
       renderer.toneMapping = THREE.NeutralToneMapping;
       renderer.toneMappingExposure = 1.14;
@@ -910,7 +920,6 @@
         y: 0.06 * lily.flowerTiltDirection,
         z: 0.2 * lily.flowerTiltDirection
       };
-      const anchor = new THREE.Vector3();
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       function waterOffset(u, v, time, pointer, drops) {
@@ -955,7 +964,20 @@
         camera.updateProjectionMatrix();
         const visibleHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * camera.position.z;
         const visibleWidth = visibleHeight * camera.aspect;
-        anchor.set(visibleWidth * 0.22, -visibleHeight * 0.13, 0);
+        const canvasAspect = width / height;
+        const imageAspect = painting.width / painting.height;
+        let spanX = 1;
+        let spanY = 1;
+        if (canvasAspect > imageAspect) spanY = imageAspect / canvasAspect;
+        else spanX = canvasAspect / imageAspect;
+        const biasX = width < 760 ? 0.12 : 0.22;
+        const originX = (1 - spanX) * biasX;
+        const originY = (1 - spanY) * 0.5;
+        spots.forEach((spot) => {
+          const screenU = (spot.imageU - originX) / spanX;
+          const screenV = ((1 - spot.imageV) - originY) / spanY;
+          spot.anchor.set((screenU - 0.5) * visibleWidth, (screenV - 0.5) * visibleHeight, 0);
+        });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.setSize(width, height, false);
       }
@@ -964,23 +986,26 @@
         const motion = room.pondMotion;
         const visibleHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * camera.position.z;
         const visibleWidth = visibleHeight * camera.aspect;
-        let shift = { x: 0, y: 0, lift: 0 };
-        if (motion && !reduceMotion) {
-          const u = anchor.x / visibleWidth + 0.5;
-          const v = anchor.y / visibleHeight + 0.5;
-          shift = waterOffset(u, v, motion.time, motion.pointer, motion.drops);
-        }
-        const drift = 2.4;
-        flower.position.set(
-          anchor.x + shift.x * visibleWidth * drift,
-          anchor.y + shift.y * visibleHeight * drift,
-          shift.lift * 0.05
-        );
-        flower.rotation.set(
-          restRotation.x - shift.y * 26,
-          restRotation.y + shift.x * 16,
-          restRotation.z + shift.x * 20
-        );
+        const drift = 0.75;
+        const rock = 6;
+        spots.forEach((spot) => {
+          let shift = { x: 0, y: 0, lift: 0 };
+          if (motion && !reduceMotion) {
+            const u = spot.anchor.x / visibleWidth + 0.5;
+            const v = spot.anchor.y / visibleHeight + 0.5;
+            shift = waterOffset(u, v, motion.time, motion.pointer, motion.drops);
+          }
+          spot.flower.position.set(
+            spot.anchor.x + shift.x * visibleWidth * drift,
+            spot.anchor.y + shift.y * visibleHeight * drift,
+            shift.lift * 0.02
+          );
+          spot.flower.rotation.set(
+            restRotation.x - shift.y * rock,
+            restRotation.y + shift.x * rock * 0.6,
+            restRotation.z + spot.yaw + shift.x * rock * 0.8
+          );
+        });
         renderer.render(scene, camera);
       }
 
