@@ -722,41 +722,49 @@
         pistilRadius: 0.22,
         pistilHeight: 0.09,
         stamenCount: 12,
-        petalColorOuter: 0xffc0d4,
-        petalColorInner: 0xff7eae,
-        petalColorHighlight: 0xfff0f4,
-        centerColor: 0xffc53d,
-        stamenColor: 0xf09432,
+        outerPetalColor: 0xff86b6,
+        innerPetalColor: 0xff3b78,
+        petalHighlightColor: 0xffe4ef,
+        petalBaseTint: 0xff1864,
+        petalGradientStrength: 0.4,
+        petalSaturation: 1.06,
+        petalLightness: 1,
+        centerColor: 0xffc428,
+        stamenColor: 0xff8c2a,
         rings: [
-          { count: 16, length: 0.96, width: 0.42, tilt: 0.18, curl: 0.06, cup: 0.08, arch: 0.12, spin: 0, edge: 0xffe4ee },
-          { count: 14, length: 0.82, width: 0.34, tilt: 0.34, curl: 0.08, cup: 0.09, arch: 0.16, spin: 0.5, edge: 0xffd0e0 },
-          { count: 14, length: 0.68, width: 0.28, tilt: 0.5, curl: 0.1, cup: 0.09, arch: 0.18, spin: 0.2, edge: 0xffc4d8 },
-          { count: 12, length: 0.54, width: 0.22, tilt: 0.66, curl: 0.1, cup: 0.08, arch: 0.16, spin: 0.5, edge: 0xffb3cc },
-          { count: 10, length: 0.42, width: 0.17, tilt: 0.82, curl: 0.08, cup: 0.06, arch: 0.12, spin: 0.15, edge: 0xff9ec0 },
-          { count: 10, length: 0.3, width: 0.13, tilt: 0.96, curl: 0.05, cup: 0.04, arch: 0.08, spin: 0.5, edge: 0xff8fb6 },
-          { count: 8, length: 0.18, width: 0.09, tilt: 0.78, curl: 0.03, cup: 0.03, arch: 0.04, spin: 0.25, edge: 0xffb3cc },
-          { count: 8, length: 0.11, width: 0.06, tilt: 0.86, curl: 0.02, cup: 0.02, arch: 0.02, spin: 0.5, edge: 0xffc4d8 }
+          { count: 16, length: 0.96, width: 0.42, tilt: 0.18, curl: 0.06, cup: 0.08, arch: 0.12, spin: 0, edge: 0xff8eb8 },
+          { count: 14, length: 0.82, width: 0.34, tilt: 0.34, curl: 0.08, cup: 0.09, arch: 0.16, spin: 0.5, edge: 0xff82b0 },
+          { count: 14, length: 0.68, width: 0.28, tilt: 0.5, curl: 0.1, cup: 0.09, arch: 0.18, spin: 0.2, edge: 0xff78a8 },
+          { count: 12, length: 0.54, width: 0.22, tilt: 0.66, curl: 0.1, cup: 0.08, arch: 0.16, spin: 0.5, edge: 0xff96bc },
+          { count: 10, length: 0.42, width: 0.17, tilt: 0.82, curl: 0.08, cup: 0.06, arch: 0.12, spin: 0.15, edge: 0xff88b4 },
+          { count: 10, length: 0.3, width: 0.13, tilt: 0.96, curl: 0.05, cup: 0.04, arch: 0.08, spin: 0.5, edge: 0xff7eac },
+          { count: 8, length: 0.18, width: 0.09, tilt: 0.78, curl: 0.03, cup: 0.03, arch: 0.04, spin: 0.25, edge: 0xff96bc },
+          { count: 8, length: 0.11, width: 0.06, tilt: 0.86, curl: 0.02, cup: 0.02, arch: 0.02, spin: 0.5, edge: 0xffb0d0 }
         ]
       };
 
       const petalMat = new THREE.MeshPhysicalMaterial({
         vertexColors: true,
-        roughness: 0.46,
+        roughness: 0.58,
         metalness: 0,
         iridescence: 0,
-        sheen: 0.45,
-        sheenColor: new THREE.Color(0xfff4f7),
-        sheenRoughness: 0.55,
-        emissive: new THREE.Color(0xffd0dc),
-        emissiveIntensity: 0.04,
+        sheen: 0.22,
+        sheenColor: new THREE.Color(0xffb3d0),
+        sheenRoughness: 0.62,
+        emissive: new THREE.Color(0xff5c90),
+        emissiveIntensity: 0.05,
         side: THREE.DoubleSide
       });
 
-      const petalOuter = new THREE.Color(lily.petalColorOuter);
-      const petalInner = new THREE.Color(lily.petalColorInner);
-      const petalHighlight = new THREE.Color(lily.petalColorHighlight);
+      const petalOuter = new THREE.Color(lily.outerPetalColor);
+      const petalInner = new THREE.Color(lily.innerPetalColor);
+      const petalHighlight = new THREE.Color(lily.petalHighlightColor);
+      const petalBase = new THREE.Color(lily.petalBaseTint);
       const colorAlong = new THREE.Color();
       const colorFold = new THREE.Color();
+      const rootColor = new THREE.Color();
+      const tipColor = new THREE.Color();
+      const hsl = { h: 0, s: 0, l: 0 };
 
       function unitHash(n) {
         const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
@@ -770,6 +778,12 @@
         const colors = [];
         const indices = [];
         const edgeColor = new THREE.Color(ring.edge);
+        const innerness = THREE.MathUtils.clamp(1 - ring.length / 0.96, 0, 1);
+        rootColor.copy(petalInner).lerp(petalBase, innerness * 0.85);
+        tipColor.copy(petalOuter).lerp(petalInner, innerness * 0.35);
+        const hueShift = (unitHash(salt + 21) - 0.5) * 0.02;
+        const satScale = (0.96 + unitHash(salt + 22) * 0.1) * lily.petalSaturation;
+        const lightShift = (unitHash(salt + 23) - 0.5) * 0.025;
         const basePower = 0.55;
         const tipPower = 0.92;
         const peakT = basePower / (basePower + tipPower);
@@ -790,9 +804,17 @@
             const channel = across * across * ring.cup * length;
             const twist = across * half * 0.12 * t;
             positions.push(across * half + twist, t * length, arch + tipLift + channel);
-            colorAlong.copy(petalInner).lerp(petalOuter, Math.pow(t, 0.65));
-            colorAlong.lerp(petalHighlight, Math.pow(t, 1.7) * 0.35);
-            colorFold.copy(colorAlong).lerp(edgeColor, Math.pow(Math.abs(across), 2.2) * 0.18);
+            const along = Math.pow(t, 1.15);
+            colorAlong.copy(rootColor).lerp(tipColor, along);
+            const tip = Math.max(t - 0.72, 0) / 0.28;
+            colorAlong.lerp(petalHighlight, Math.pow(tip, 1.2) * lily.petalGradientStrength);
+            colorFold.copy(colorAlong).lerp(edgeColor, Math.pow(Math.abs(across), 2.2) * 0.14);
+            colorFold.lerp(petalHighlight, Math.pow(1 - Math.abs(across), 5) * 0.05 * (0.3 + t));
+            colorFold.getHSL(hsl);
+            hsl.h = (hsl.h + hueShift + 1) % 1;
+            hsl.s = THREE.MathUtils.clamp(hsl.s * satScale, 0, 1);
+            hsl.l = THREE.MathUtils.clamp(hsl.l * lily.petalLightness + lightShift, 0, 0.9);
+            colorFold.setHSL(hsl.h, hsl.s, hsl.l);
             colors.push(colorFold.r, colorFold.g, colorFold.b);
           }
         }
@@ -835,7 +857,12 @@
       }
 
       function addCenter(flower) {
-        const coreMat = new THREE.MeshStandardMaterial({ color: lily.centerColor, roughness: 0.48 });
+        const coreMat = new THREE.MeshStandardMaterial({
+          color: lily.centerColor,
+          roughness: 0.4,
+          emissive: 0xffb018,
+          emissiveIntensity: 0.16
+        });
         const core = new THREE.Mesh(new THREE.SphereGeometry(lily.pistilRadius, 24, 16), coreMat);
         core.scale.z = lily.pistilHeight / lily.pistilRadius;
         core.position.z = 0.16;
@@ -843,13 +870,18 @@
 
         const heart = new THREE.Mesh(
           new THREE.SphereGeometry(lily.pistilRadius * 0.42, 16, 12),
-          new THREE.MeshStandardMaterial({ color: 0xffe38a, roughness: 0.38 })
+          new THREE.MeshStandardMaterial({ color: 0xffef96, roughness: 0.34, emissive: 0xffd060, emissiveIntensity: 0.12 })
         );
         heart.position.z = 0.22;
         flower.add(heart);
 
         const stamenGeo = new THREE.SphereGeometry(0.034, 8, 6);
-        const stamenMat = new THREE.MeshStandardMaterial({ color: lily.stamenColor, roughness: 0.42 });
+        const stamenMat = new THREE.MeshStandardMaterial({
+          color: lily.stamenColor,
+          roughness: 0.38,
+          emissive: 0xff7a20,
+          emissiveIntensity: 0.1
+        });
         for (let i = 0; i < lily.stamenCount; i += 1) {
           const angle = (i / lily.stamenCount) * Math.PI * 2;
           const stamen = new THREE.Mesh(stamenGeo, stamenMat);
@@ -862,13 +894,13 @@
       const flower = makeLily();
       scene.add(flower);
 
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.08;
-      scene.add(new THREE.HemisphereLight(0xfff6f8, 0xf3e4ea, 0.78));
-      const key = new THREE.DirectionalLight(0xfff7f4, 1.15);
+      renderer.toneMapping = THREE.NeutralToneMapping;
+      renderer.toneMappingExposure = 1.14;
+      scene.add(new THREE.HemisphereLight(0xfff7f4, 0xffd0e2, 0.95));
+      const key = new THREE.DirectionalLight(0xfff4f0, 1.2);
       key.position.set(1.2, 2.8, 5.6);
       scene.add(key);
-      const fill = new THREE.DirectionalLight(0xffe4ee, 0.28);
+      const fill = new THREE.DirectionalLight(0xffd6e6, 0.24);
       fill.position.set(-3.2, -1.2, 3.4);
       scene.add(fill);
 
