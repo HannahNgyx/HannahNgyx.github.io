@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=Caveat:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=23">
+  <link rel="stylesheet" href="style.css?v=24">
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
@@ -42,6 +42,7 @@
   <main id="main">
     <section class="room" aria-labelledby="hero-title">
       <canvas class="field" aria-hidden="true"></canvas>
+      <canvas class="blooms" aria-hidden="true"></canvas>
       <div class="pond-copy">
         <p class="eyebrow">Software developer</p>
         <h1 id="hero-title">Making useful things <em>with a little soul.</em></h1>
@@ -342,6 +343,8 @@
       const pointer = { x: 0.32, y: 0.55, active: false, wake: 0 };
       const drops = new Float32Array(DROP_COUNT * 3);
       drops.fill(-1);
+      const motion = { time: 0, pointer, drops };
+      room.pondMotion = motion;
       let dropIndex = 0;
       let lastDrop = { x: -1, y: -1, t: 0 };
 
@@ -501,6 +504,7 @@
       function draw(now) {
         if (!imageReady) return;
         const t = now * 0.001;
+        motion.time = t;
         pointer.wake += ((pointer.active ? 1 : 0) - pointer.wake) * 0.08;
         gl.uniform1f(uTime, t);
         gl.uniform2f(uCursor, pointer.x, pointer.y);
@@ -687,6 +691,336 @@
       if (event.key === "ArrowRight") showPicture(pictureIndex + 1);
       if (event.key === "ArrowLeft") showPicture(pictureIndex - 1);
     });
+  </script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.170.0/build/three.module.js"
+    }
+  }
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+
+    const room = document.querySelector(".room");
+    const canvas = document.querySelector(".blooms");
+    if (room && canvas) {
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setClearColor(0x000000, 0);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 20);
+      camera.position.set(0, 0, 8);
+
+      const lily = {
+        rows: 24,
+        cols: 8,
+        flowerTiltDeg: 24,
+        flowerTiltDirection: -1,
+        pistilRadius: 0.22,
+        pistilHeight: 0.09,
+        stamenCount: 12,
+        outerPetalColor: 0xff86b6,
+        innerPetalColor: 0xff3b78,
+        petalHighlightColor: 0xffe4ef,
+        petalBaseTint: 0xff1864,
+        petalGradientStrength: 0.4,
+        petalSaturation: 1.06,
+        petalLightness: 1,
+        centerColor: 0xffc428,
+        stamenColor: 0xff8c2a,
+        rings: [
+          { count: 16, length: 0.96, width: 0.42, tilt: 0.18, curl: 0.06, cup: 0.08, arch: 0.12, spin: 0, edge: 0xff8eb8 },
+          { count: 14, length: 0.82, width: 0.34, tilt: 0.34, curl: 0.08, cup: 0.09, arch: 0.16, spin: 0.5, edge: 0xff82b0 },
+          { count: 14, length: 0.68, width: 0.28, tilt: 0.5, curl: 0.1, cup: 0.09, arch: 0.18, spin: 0.2, edge: 0xff78a8 },
+          { count: 12, length: 0.54, width: 0.22, tilt: 0.66, curl: 0.1, cup: 0.08, arch: 0.16, spin: 0.5, edge: 0xff96bc },
+          { count: 10, length: 0.42, width: 0.17, tilt: 0.82, curl: 0.08, cup: 0.06, arch: 0.12, spin: 0.15, edge: 0xff88b4 },
+          { count: 10, length: 0.3, width: 0.13, tilt: 0.96, curl: 0.05, cup: 0.04, arch: 0.08, spin: 0.5, edge: 0xff7eac },
+          { count: 8, length: 0.18, width: 0.09, tilt: 0.78, curl: 0.03, cup: 0.03, arch: 0.04, spin: 0.25, edge: 0xff96bc },
+          { count: 8, length: 0.11, width: 0.06, tilt: 0.86, curl: 0.02, cup: 0.02, arch: 0.02, spin: 0.5, edge: 0xffb0d0 }
+        ]
+      };
+
+      const petalMat = new THREE.MeshPhysicalMaterial({
+        vertexColors: true,
+        roughness: 0.58,
+        metalness: 0,
+        iridescence: 0,
+        sheen: 0.22,
+        sheenColor: new THREE.Color(0xffb3d0),
+        sheenRoughness: 0.62,
+        emissive: new THREE.Color(0xff5c90),
+        emissiveIntensity: 0.05,
+        side: THREE.DoubleSide
+      });
+
+      const petalOuter = new THREE.Color(lily.outerPetalColor);
+      const petalInner = new THREE.Color(lily.innerPetalColor);
+      const petalHighlight = new THREE.Color(lily.petalHighlightColor);
+      const petalBase = new THREE.Color(lily.petalBaseTint);
+      const colorAlong = new THREE.Color();
+      const colorFold = new THREE.Color();
+      const rootColor = new THREE.Color();
+      const tipColor = new THREE.Color();
+      const hsl = { h: 0, s: 0, l: 0 };
+
+      function unitHash(n) {
+        const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
+        return x - Math.floor(x);
+      }
+
+      function makePetalGeometry(ring, salt) {
+        const rows = lily.rows;
+        const cols = lily.cols;
+        const positions = [];
+        const colors = [];
+        const indices = [];
+        const edgeColor = new THREE.Color(ring.edge);
+        const innerness = THREE.MathUtils.clamp(1 - ring.length / 0.96, 0, 1);
+        rootColor.copy(petalInner).lerp(petalBase, innerness * 0.85);
+        tipColor.copy(petalOuter).lerp(petalInner, innerness * 0.35);
+        const hueShift = (unitHash(salt + 21) - 0.5) * 0.02;
+        const satScale = (0.96 + unitHash(salt + 22) * 0.1) * lily.petalSaturation;
+        const lightShift = (unitHash(salt + 23) - 0.5) * 0.025;
+        const basePower = 0.55;
+        const tipPower = 0.92;
+        const peakT = basePower / (basePower + tipPower);
+        const peak = Math.pow(peakT, basePower) * Math.pow(1 - peakT, tipPower);
+        const length = ring.length * (0.94 + unitHash(salt) * 0.12);
+        const maxWidth = ring.width * (0.9 + unitHash(salt + 3) * 0.18);
+        const curl = ring.curl * (0.85 + unitHash(salt + 5) * 0.3);
+        for (let row = 0; row <= rows; row += 1) {
+          const t = row / rows;
+          const envelope = t <= 0 || t >= 1
+            ? 0
+            : Math.pow(t, basePower) * Math.pow(1 - t, tipPower) / peak;
+          const half = maxWidth * 0.5 * envelope;
+          const arch = Math.sin(Math.PI * Math.pow(t, 0.9)) * ring.arch * length;
+          const tipLift = Math.pow(t, 2.5) * curl * length;
+          for (let col = 0; col <= cols; col += 1) {
+            const across = col / cols * 2 - 1;
+            const channel = across * across * ring.cup * length;
+            const twist = across * half * 0.12 * t;
+            positions.push(across * half + twist, t * length, arch + tipLift + channel);
+            const along = Math.pow(t, 1.15);
+            colorAlong.copy(rootColor).lerp(tipColor, along);
+            const tip = Math.max(t - 0.72, 0) / 0.28;
+            colorAlong.lerp(petalHighlight, Math.pow(tip, 1.2) * lily.petalGradientStrength);
+            colorFold.copy(colorAlong).lerp(edgeColor, Math.pow(Math.abs(across), 2.2) * 0.14);
+            colorFold.lerp(petalHighlight, Math.pow(1 - Math.abs(across), 5) * 0.05 * (0.3 + t));
+            colorFold.getHSL(hsl);
+            hsl.h = (hsl.h + hueShift + 1) % 1;
+            hsl.s = THREE.MathUtils.clamp(hsl.s * satScale, 0, 1);
+            hsl.l = THREE.MathUtils.clamp(hsl.l * lily.petalLightness + lightShift, 0, 0.9);
+            colorFold.setHSL(hsl.h, hsl.s, hsl.l);
+            colors.push(colorFold.r, colorFold.g, colorFold.b);
+          }
+        }
+        for (let row = 0; row < rows; row += 1) {
+          for (let col = 0; col < cols; col += 1) {
+            const a = row * (cols + 1) + col;
+            const b = a + 1;
+            const c = a + cols + 1;
+            const d = c + 1;
+            indices.push(a, c, b, b, c, d);
+          }
+        }
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+        geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+        geometry.setIndex(indices);
+        geometry.computeVertexNormals();
+        return geometry;
+      }
+
+      function makeLily() {
+        const flower = new THREE.Group();
+        lily.rings.forEach((ring, ringIndex) => {
+          for (let i = 0; i < ring.count; i += 1) {
+            const salt = ringIndex * 40 + i;
+            const arm = new THREE.Group();
+            const angle = ((i + ring.spin) / ring.count) * Math.PI * 2;
+            arm.rotation.z = angle;
+            const petal = new THREE.Mesh(makePetalGeometry(ring, salt), petalMat);
+            const frontToBack = Math.cos(angle);
+            petal.rotation.x = ring.tilt + frontToBack * 0.16 + (unitHash(salt + 9) - 0.5) * 0.04;
+            petal.rotation.z = (unitHash(salt + 13) - 0.5) * 0.05;
+            arm.add(petal);
+            flower.add(arm);
+          }
+        });
+        addCenter(flower);
+        return flower;
+      }
+
+      function addCenter(flower) {
+        const coreMat = new THREE.MeshStandardMaterial({
+          color: lily.centerColor,
+          roughness: 0.4,
+          emissive: 0xffb018,
+          emissiveIntensity: 0.16
+        });
+        const core = new THREE.Mesh(new THREE.SphereGeometry(lily.pistilRadius, 24, 16), coreMat);
+        core.scale.z = lily.pistilHeight / lily.pistilRadius;
+        core.position.z = 0.16;
+        flower.add(core);
+
+        const heart = new THREE.Mesh(
+          new THREE.SphereGeometry(lily.pistilRadius * 0.42, 16, 12),
+          new THREE.MeshStandardMaterial({ color: 0xffef96, roughness: 0.34, emissive: 0xffd060, emissiveIntensity: 0.12 })
+        );
+        heart.position.z = 0.22;
+        flower.add(heart);
+
+        const stamenGeo = new THREE.SphereGeometry(0.034, 8, 6);
+        const stamenMat = new THREE.MeshStandardMaterial({
+          color: lily.stamenColor,
+          roughness: 0.38,
+          emissive: 0xff7a20,
+          emissiveIntensity: 0.1
+        });
+        for (let i = 0; i < lily.stamenCount; i += 1) {
+          const angle = (i / lily.stamenCount) * Math.PI * 2;
+          const stamen = new THREE.Mesh(stamenGeo, stamenMat);
+          const radius = lily.pistilRadius * 0.72;
+          stamen.position.set(Math.cos(angle) * radius, Math.sin(angle) * radius, 0.2);
+          flower.add(stamen);
+        }
+      }
+
+      const painting = { width: 1280, height: 720 };
+      const prototype = makeLily();
+      const spots = [
+        { imageU: 0.384, imageV: 0.741, scale: 0.3, yaw: 0.35 },
+        { imageU: 0.48, imageV: 0.178, scale: 0.22, yaw: -0.55 },
+        { imageU: 0.685, imageV: 0.691, scale: 0.46, yaw: 0.12 }
+      ].map((spot) => {
+        const flower = prototype.clone(true);
+        flower.scale.setScalar(spot.scale);
+        spot.flower = flower;
+        spot.anchor = new THREE.Vector3();
+        scene.add(flower);
+        return spot;
+      });
+
+      renderer.toneMapping = THREE.NeutralToneMapping;
+      renderer.toneMappingExposure = 1.14;
+      scene.add(new THREE.HemisphereLight(0xfff7f4, 0xffd0e2, 0.95));
+      const key = new THREE.DirectionalLight(0xfff4f0, 1.2);
+      key.position.set(1.2, 2.8, 5.6);
+      scene.add(key);
+      const fill = new THREE.DirectionalLight(0xffd6e6, 0.24);
+      fill.position.set(-3.2, -1.2, 3.4);
+      scene.add(fill);
+
+      const tilt = THREE.MathUtils.degToRad(lily.flowerTiltDeg);
+      const restRotation = {
+        x: -tilt,
+        y: 0.06 * lily.flowerTiltDirection,
+        z: 0.2 * lily.flowerTiltDirection
+      };
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function waterOffset(u, v, time, pointer, drops) {
+        let x = Math.sin(v * 18 + time * 0.45) * 0.0028 + Math.sin(u * 9 - time * 0.22) * 0.0012;
+        let y = Math.cos(u * 14 + time * 0.32) * 0.0028;
+        let lift = Math.sin(v * 18 + time * 0.45);
+
+        const wakeX = u - pointer.x;
+        const wakeY = v - pointer.y;
+        const wakeDist = Math.hypot(wakeX, wakeY);
+        const wakeAmp = Math.exp(-wakeDist * 16) * pointer.wake;
+        if (wakeDist > 0.0008) {
+          const wave = Math.sin(wakeDist * 70 - time * 5.5);
+          x += (wakeX / wakeDist) * wave * wakeAmp * 0.014;
+          y += (wakeY / wakeDist) * wave * wakeAmp * 0.014;
+          lift += wave * wakeAmp * 4;
+        }
+
+        for (let i = 0; i < drops.length; i += 3) {
+          const born = drops[i + 2];
+          const age = time - born;
+          if (born < 0 || age < 0 || age > 3.4) continue;
+          const dropX = u - drops[i];
+          const dropY = v - drops[i + 1];
+          const dist = Math.hypot(dropX, dropY);
+          const wave = Math.sin(dist * 90 - age * 7);
+          const env = Math.exp(-dist * 9) * Math.exp(-age * 1.15);
+          if (dist > 0.0008) {
+            x += (dropX / dist) * wave * env * 0.016;
+            y += (dropY / dist) * wave * env * 0.016;
+          }
+          lift += wave * env * 6;
+        }
+        return { x, y, lift };
+      }
+
+      function measure() {
+        const box = room.getBoundingClientRect();
+        const width = Math.max(1, box.width);
+        const height = Math.max(1, box.height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        const visibleHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * camera.position.z;
+        const visibleWidth = visibleHeight * camera.aspect;
+        const canvasAspect = width / height;
+        const imageAspect = painting.width / painting.height;
+        let spanX = 1;
+        let spanY = 1;
+        if (canvasAspect > imageAspect) spanY = imageAspect / canvasAspect;
+        else spanX = canvasAspect / imageAspect;
+        const biasX = width < 760 ? 0.12 : 0.22;
+        const originX = (1 - spanX) * biasX;
+        const originY = (1 - spanY) * 0.5;
+        spots.forEach((spot) => {
+          const screenU = (spot.imageU - originX) / spanX;
+          const screenV = ((1 - spot.imageV) - originY) / spanY;
+          spot.anchor.set((screenU - 0.5) * visibleWidth, (screenV - 0.5) * visibleHeight, 0);
+        });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setSize(width, height, false);
+      }
+
+      function renderFlower() {
+        const motion = room.pondMotion;
+        const visibleHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * camera.position.z;
+        const visibleWidth = visibleHeight * camera.aspect;
+        const drift = 0.75;
+        const rock = 6;
+        spots.forEach((spot) => {
+          let shift = { x: 0, y: 0, lift: 0 };
+          if (motion && !reduceMotion) {
+            const u = spot.anchor.x / visibleWidth + 0.5;
+            const v = spot.anchor.y / visibleHeight + 0.5;
+            shift = waterOffset(u, v, motion.time, motion.pointer, motion.drops);
+          }
+          spot.flower.position.set(
+            spot.anchor.x + shift.x * visibleWidth * drift,
+            spot.anchor.y + shift.y * visibleHeight * drift,
+            shift.lift * 0.02
+          );
+          spot.flower.rotation.set(
+            restRotation.x - shift.y * rock,
+            restRotation.y + shift.x * rock * 0.6,
+            restRotation.z + spot.yaw + shift.x * rock * 0.8
+          );
+        });
+        renderer.render(scene, camera);
+      }
+
+      function frame() {
+        renderFlower();
+        if (!reduceMotion) requestAnimationFrame(frame);
+      }
+
+      new ResizeObserver(() => {
+        measure();
+        renderFlower();
+      }).observe(room);
+      measure();
+      frame();
+    }
   </script>
 </body>
 </html>
