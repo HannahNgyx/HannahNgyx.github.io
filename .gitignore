@@ -13,3 +13,6 @@ playwright-report/
 
 # Personal Claude Code settings (approvals, local paths)
 .claude/settings.local.json
+
+# design-taste-frontend working files (inspector screenshots, dealt directions)
+.taste-skill/
