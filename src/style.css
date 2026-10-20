@@ -1,0 +1,19 @@
+/* Blank starting point. Design tokens go on :root as tickets define them. */
+
+:root {
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #111;
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+main {
+  padding: 2rem 1rem;
+}
