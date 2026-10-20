@@ -10,3 +10,6 @@ dist/
 qa/scratch/
 test-results/
 playwright-report/
+
+# Personal Claude Code settings (approvals, local paths)
+.claude/settings.local.json
