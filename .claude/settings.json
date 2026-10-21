@@ -1,5 +1,16 @@
 {
   "permissions": {
+    "allow": [
+      "Bash(npm run qa:shots *)",
+      "Bash(npm run qa:shots)",
+      "Bash(npm run build)",
+      "Bash(git fetch *)",
+      "Bash(git fetch)",
+      "Bash(gh project item-list *)",
+      "Bash(gh project field-list *)",
+      "Bash(gh project view *)",
+      "Bash(gh label list *)"
+    ],
     "deny": [
       "Read(./.env)",
       "Read(./.env.*)",
