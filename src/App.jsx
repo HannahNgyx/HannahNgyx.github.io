@@ -1,7 +1,9 @@
+import Hero from "./components/Hero.jsx";
+
 export default function App() {
   return (
     <main id="main">
-      <h1>Hannah Nguyen</h1>
+      <Hero />
     </main>
   );
 }

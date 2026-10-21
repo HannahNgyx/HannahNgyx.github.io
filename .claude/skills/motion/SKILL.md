@@ -6,18 +6,19 @@ description: Motion on this site (timings, easing, what animates) as tickets def
 # Motion
 
 ## What exists
-Nothing moves yet. When a ticket adds motion, record it here in the same change:
+When a ticket adds motion, record it here in the same change:
 
 | Thing | Where | Trigger → what happens → how much | Reduced motion |
 |---|---|---|---|
-| — | — | — | — |
+| Hero photo reveal (HERO-7, #9) | `src/style.css`, `.hero__figure[data-photo-reveal]` | Hover on the figure box → `.hero__photo` opacity 0 → 1, `.hero__outline` and `.hero__hint` opacity 1 → 0 → cross-fade, `--dur-quick` (200ms) `--ease-state` (`ease`), opacity only, no movement. Desktop only (figure is `display: none` without a fine hover pointer or at ≤30rem). Not focusable, so no focus path yet (follow-up). | Same end states, switched instantly (`transition: none`). |
 
 ## House timings
-None set yet. Until a ticket sets them: 120–200ms for hover and state changes, up to ~320ms for things entering, `ease-out` for entering and `ease` for state changes, and no bounce or overshoot. Record the first real values as CSS custom properties (e.g. `--dur-quick`, `--ease-out`) on `:root` and in this table:
+Defaults for anything without a token yet: 120–200ms for hover and state changes, up to ~320ms for things entering, `ease-out` for entering and `ease` for state changes, and no bounce or overshoot. Tokens live on `:root` in `src/style.css`; reuse them before adding new ones:
 
-| Token | Value |
-|---|---|
-| — | — |
+| Token | Value | Use |
+|---|---|---|
+| `--dur-quick` | `200ms` | hover and state changes (hero photo reveal) |
+| `--ease-state` | `ease` | state changes |
 
 ## Rules
 1. **Animate `transform` and `opacity` only.** Not width, height, top/left, margin, background, box-shadow or filter.
