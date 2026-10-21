@@ -7,6 +7,7 @@
   --color-bg: #fff;
   --color-text: #111;
   --color-on-ink: #fff;
+  --color-surface: #ececec; /* nav pill and menu; --color-text on it is 16.0:1 */
 
   /* Fonts */
   --font-body: "Be Vietnam Pro", system-ui, sans-serif;
@@ -38,6 +39,8 @@
   /* Borders, radii, focus */
   --border-w: 2px;
   --radius-sm: 0.375rem;
+  --radius-lg: 1.5rem;   /* nav menu pop-up */
+  --radius-pill: 999px;  /* nav pill */
   --focus-w: 2px;
   --focus-offset: 3px;
 
@@ -101,6 +104,117 @@ main {
 .button--outline {
   background: transparent;
   color: var(--color-text);
+}
+
+/* ---------- Nav (NAV-1..6) ---------- */
+/* A grey pill: name at the inline-start, four section links at the inline-end.
+   Narrow screens swap the links for a Menu button and a pop-up (block below). */
+
+.nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  inline-size: min(60rem, 100% - 2 * var(--space-3));
+  margin: var(--space-5) auto 0;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-surface);
+  border-radius: var(--radius-pill);
+}
+
+.nav__menu {
+  display: flex;
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav__link,
+.nav__toggle {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--target-min);
+  min-inline-size: var(--target-min);
+  color: var(--color-text);
+  font-size: var(--fs-body);
+  text-decoration: none;
+  text-underline-offset: 0.2em;
+}
+
+.nav__name {
+  font-weight: 600;
+}
+
+.nav__link:hover,
+.nav__toggle:hover {
+  text-decoration: underline;
+}
+
+/* The Menu button only exists when narrow */
+.nav__toggle {
+  display: none;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  line-height: inherit;
+  cursor: pointer;
+}
+
+/* ---------- Nav, narrow: max-width 30rem (--bp-narrow) ---------- */
+/* Name + Menu button in the pill; the four links move into a pop-up panel under the
+   pill's inline-end edge. Closed: hidden (visibility, so it is out of the tab order and
+   the accessibility tree). Open: [data-open] on .nav.
+   Motion (NAV-6): fade + settle down 4px (--space-1), --dur-quick --ease-state. On close
+   the visibility switch waits for the fade; pointer-events drop at once so the fading
+   panel can't be clicked. */
+
+@media (max-width: 30rem) {
+  .nav__toggle {
+    display: inline-flex;
+  }
+
+  .nav__menu {
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--space-1)));
+    pointer-events: none;
+    transition:
+      opacity var(--dur-quick) var(--ease-state),
+      transform var(--dur-quick) var(--ease-state),
+      visibility 0s linear var(--dur-quick);
+    position: absolute;
+    z-index: 2;
+    inset-block-start: calc(100% + var(--space-2));
+    inset-inline-end: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+  }
+
+  .nav[data-open] .nav__menu {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    transition:
+      opacity var(--dur-quick) var(--ease-state),
+      transform var(--dur-quick) var(--ease-state),
+      visibility 0s;
+  }
+}
+
+@media (max-width: 30rem) and (prefers-reduced-motion: reduce) {
+  .nav__menu,
+  .nav[data-open] .nav__menu {
+    transition: none;
+  }
 }
 
 /* ---------- Hero ---------- */

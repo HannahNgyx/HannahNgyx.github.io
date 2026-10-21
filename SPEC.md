@@ -1,7 +1,8 @@
 # SPEC — the site as it is
 
 Each rule has an ID, a statement and the widths it is checked at.
-Widths: **1440, 1024, 768, 390**. "All" means all four. There are no breakpoints yet; record them here when a ticket adds one.
+Widths: **1440, 1024, 768, 390**. "All" means all four.
+Breakpoints: **narrow** is `@media (max-width: 30rem)` (480px, `--bp-narrow`): 390 is narrow, 768 and up are not. HERO's “desktop” also needs a hover-capable pointer (see the HERO intro). Record new breakpoints here when a ticket adds one.
 
 Rules describe what exists. To change the site, a ticket changes the rule text first (designer), then the code.
 Sections get a short ID prefix when they first appear (NAV, HERO, WORK…). IDs are never reused: removed rules are struck through (`~~HERO-4~~ removed in #12`), and new rules take the next free number.
@@ -12,6 +13,17 @@ Sections get a short ID prefix when they first appear (NAV, HERO, WORK…). IDs 
 - **GLOBAL-3** No horizontal scroll and no element extends past the viewport. — All
 - **GLOBAL-4** There is exactly one h1. — All
 - **GLOBAL-5** Every focusable element shows a 2px solid `--color-text` outline, offset 3px, on `:focus-visible`. — All
+- **GLOBAL-6** A `<header>` sits above `<main id="main">` and holds the site nav (NAV). — All
+
+## NAV
+“Narrow” in these rules means `@media (max-width: 30rem)`: 390 is narrow, 768 and up are not.
+
+- **NAV-1** The header holds `<nav aria-label="Main">` drawn as a pill: background `--color-surface`, corners `--radius-pill`, width `min(60rem, 100% - 2 × --space-3)`, centred, `--space-5` below the top of the page. — All
+- **NAV-2** Inside the pill, a link “Hannah Nguyen” (weight 600, href `#main`) sits at the inline-start. The links “Projects”, “Experience”, “Endorsements”, “Contact” (in that order, hrefs `#projects`, `#experience`, `#endorsements`, `#contact`) sit at the inline-end. All are `--color-text` at `--fs-body`, and all sit on one row at 1440, 1024 and 768. When narrow, the four section links sit in the menu instead (NAV-4, NAV-6). — All
+- **NAV-3** Every nav link is at least 44×44px. — All
+- **NAV-4** When narrow, the pill holds one row: the “Hannah Nguyen” link at the inline-start and a `<button type="button">` reading “Menu” (accessible name “Menu”) at the inline-end, at least 44×44px, with `aria-controls` pointing at the menu and `aria-expanded` saying whether the menu is open. The four section links are not shown in the pill. At 768 and up there is no Menu button. — All
+- **NAV-5** Nav links are not underlined at rest and get an underline on `:hover`. Focus follows GLOBAL-5. — All
+- **NAV-6** When narrow, pressing Menu opens the menu: a panel in `--color-surface` with `--radius-lg` corners, `--space-2` below the pill and aligned to its inline-end edge, holding the four section links in the NAV-2 order, one per row, each at least 44px tall. It lies over the page and moves nothing. It closes when Menu is pressed again, on Escape, on choosing one of its links, and on a click outside the nav; when it closes, focus returns to the Menu button. Closed, the menu is invisible, cannot be clicked, cannot be reached with Tab and is hidden from assistive tech (`visibility: hidden`). Opening fades it in (opacity 0 → 1) while it moves 4px (`--space-1`) down into place, over `--dur-quick` (200ms) with `--ease-state` (`ease`); closing runs the same in reverse, and it is hidden and unclickable once the fade ends. Under `prefers-reduced-motion: reduce` it opens and closes instantly. — 390
 
 ## HERO
 “Desktop” in these rules means a viewport wider than 30rem whose pointer can hover (`(hover: hover) and (pointer: fine)`); 1440, 1024 and 768 are checked as desktop. 390, and any screen without hover, are not desktop.

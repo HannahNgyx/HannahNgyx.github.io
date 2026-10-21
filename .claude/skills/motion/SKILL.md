@@ -11,14 +11,15 @@ When a ticket adds motion, record it here in the same change:
 | Thing | Where | Trigger → what happens → how much | Reduced motion |
 |---|---|---|---|
 | Hero photo reveal (HERO-7, #9) | `src/style.css`, `.hero__figure[data-photo-reveal]` | Hover on the figure box → `.hero__photo` opacity 0 → 1, `.hero__outline` and `.hero__hint` opacity 1 → 0 → cross-fade, `--dur-quick` (200ms) `--ease-state` (`ease`), opacity only, no movement. Desktop only (figure is `display: none` without a fine hover pointer or at ≤30rem). Not focusable, so no focus path yet (follow-up). | Same end states, switched instantly (`transition: none`). |
+| Narrow nav menu open/close (NAV-6, #10) | `src/style.css`, narrow block: `.nav__menu`, open on `.nav[data-open]` | Menu button (and close on Escape / link / outside click) → `.nav__menu` opacity 0 → 1 and `translateY(-4px)` (`-var(--space-1)`) → `none`, reversed on close → `--dur-quick` (200ms) `--ease-state` (`ease`). Closed state is `visibility: hidden` + `pointer-events: none`; on close `visibility` flips after a 200ms delay so the fade shows, pointer-events drop at once. Narrow (≤30rem) only; at 768 and up the menu is a static row with no transition. | Same end states, switched instantly (`transition: none`). |
 
 ## House timings
 Defaults for anything without a token yet: 120–200ms for hover and state changes, up to ~320ms for things entering, `ease-out` for entering and `ease` for state changes, and no bounce or overshoot. Tokens live on `:root` in `src/style.css`; reuse them before adding new ones:
 
 | Token | Value | Use |
 |---|---|---|
-| `--dur-quick` | `200ms` | hover and state changes (hero photo reveal) |
-| `--ease-state` | `ease` | state changes |
+| `--dur-quick` | `200ms` | hover and state changes (hero photo reveal, narrow nav menu) |
+| `--ease-state` | `ease` | state changes (hero photo reveal, narrow nav menu) |
 
 ## Rules
 1. **Animate `transform` and `opacity` only.** Not width, height, top/left, margin, background, box-shadow or filter.
