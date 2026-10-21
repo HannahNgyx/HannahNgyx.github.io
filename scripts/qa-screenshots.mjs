@@ -6,6 +6,7 @@
 //   npm run qa:shots -- --out qa/ticket-12
 //   npm run qa:shots -- --out qa/scratch --url http://localhost:5173
 //   npm run qa:shots -- --out qa/scratch --path /about
+//   npm run qa:shots -- --out qa/scratch --widths 1440,390 --motions normal
 //
 // Exits 0 even when overflow is found; warnings are printed and written
 // to <out>/report.json so the tester can read them.
@@ -14,9 +15,9 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { chromium } from "@playwright/test";
 
-const WIDTHS = [1440, 1024, 768, 390];
+const ALL_WIDTHS = [1440, 1024, 768, 390];
 const HEIGHT = { 1440: 900, 1024: 768, 768: 1024, 390: 844 };
-const MOTIONS = ["normal", "reduce"];
+const ALL_MOTIONS = ["normal", "reduce"];
 // JPEG keeps committed ticket folders small.
 const JPEG = { type: "jpeg", quality: 80 };
 
@@ -25,6 +26,17 @@ function arg(name, fallback) {
   return i > -1 && process.argv[i + 1] ? process.argv[i + 1] : fallback;
 }
 
+// A subset for quick builder checks; the tester always takes the full set.
+function list(name, all, parse = (s) => s) {
+  const picked = arg(name, "").split(",").filter(Boolean).map(parse);
+  if (!picked.length) return all;
+  const unknown = picked.filter((p) => !all.includes(p));
+  if (unknown.length) throw new Error(`--${name} accepts ${all.join(",")}; got ${unknown.join(",")}`);
+  return picked;
+}
+
+const WIDTHS = list("widths", ALL_WIDTHS, Number);
+const MOTIONS = list("motions", ALL_MOTIONS);
 const outDir = resolve(arg("out", "qa/scratch"));
 const path = arg("path", "/");
 let baseUrl = arg("url", "");
