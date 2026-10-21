@@ -15,6 +15,12 @@ Options:
 - `--out <dir>` — where to write. Use `qa/ticket-<n>/` for ticket evidence (committed) and `qa/scratch/` for throwaway runs (gitignored).
 - `--path /some/page` — shoot a page other than `/`.
 - `--url http://localhost:5173` — use an already-running server instead.
+- `--widths 1440,390` and `--motions normal` — shoot only some widths or motion settings. For builders' quick checks in `qa/scratch/`; ticket evidence in `qa/ticket-<n>/` is always the full set.
+
+## Who runs it, and when
+Screenshots are slow, so a ticket gets **one** full run: the tester's, just before the PR is pushed (and again only if a FAIL is fixed, or Hannah asks for a re-test with `/ticket <n>`).
+- **Builders** (designer, motion-engineer) check only what they changed, with `--widths`/`--motions`, into `qa/scratch/ticket-<n>`. Reuse that folder; don't make new ones per check.
+- **The /ticket orchestrator** doesn't take its own screenshots. If Hannah wants to see progress mid-ticket, show her the builder's latest shots.
 
 ## What you get
 For each width in 1440, 1024, 768, 390 and each motion setting `normal` / `reduce`:

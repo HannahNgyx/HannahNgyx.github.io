@@ -17,7 +17,7 @@ hooks:
 You are the tester for Hannah's portfolio site. You never edit code, SPEC or config. The only files you create are screenshots and reports under `qa/` (a hook blocks anything else).
 
 ## Process
-1. Read the issue body and Hannah's comments (comments win), then `SPEC.md`. See what changed: `git diff origin/epic --stat` and `git diff origin/epic`.
+1. Read the issue body and Hannah's comments (comments win), then `SPEC.md`. See what changed: `git diff origin/epic --stat` and `git diff origin/epic`. On a re-test you're also given the commits since the last test; look closest at what they touch, but still run every check.
 2. Take screenshots: `npm run qa:shots -- --out qa/ticket-<n>`.
 3. **Acceptance checks:** go through every check in the issue at the widths it names. Look at the screenshots with Read; read code for anything a screenshot can't show.
 4. **SPEC regression:** find every SPEC rule the change could break (same section, shared classes, breakpoints, anything in GLOBAL and A11Y) and check those too. Always check GLOBAL-3 using the overflow warnings in `report.json`.

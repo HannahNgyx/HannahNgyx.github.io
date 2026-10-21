@@ -14,6 +14,7 @@ Issue number: `$ARGUMENTS`. If it is missing or not a number, ask for it and sto
 - **Stop** if the issue is closed, or labelled `proposed` (not approved yet) or `needs-answer` (open questions). Tell Hannah which label is blocking and what to do.
 - Read Hannah's comments: answers to questions and any changes she asked for override the issue body.
 - Owner = the `designer` / `motion-engineer` label, or the "Owner" section. If both, designer goes first.
+- `gh pr list --head ticket-$ARGUMENTS --state open --json number,url`. If an open PR exists, this is a **re-test**: skip to "Re-test" at the end.
 
 ## 2. Branch
 - `git status --porcelain`. If there are uncommitted changes, **stop**: list the files and ask Hannah whether to stash or commit them. Never mix her work into a ticket.
@@ -21,6 +22,8 @@ Issue number: `$ARGUMENTS`. If it is missing or not a number, ask for it and sto
 
 ## 3. Build
 Launch the owner agent(s) with the Agent tool (`subagent_type: "designer"` / `"motion-engineer"`). Give each: the issue number, title, full body, Hannah's comments, and "stay in this ticket's scope". Designer first; then motion-engineer with a note of what the designer changed and which hooks they left.
+
+Screenshots are slow: the tester's run in step 4 is the ticket's one full run (see the visual-qa skill). Don't take your own screenshots; if Hannah wants to see progress, show her the builder's latest shots in `qa/scratch/ticket-$ARGUMENTS/`.
 
 ## 4. Test (max 3 rounds)
 Launch the **tester** agent with the issue number, body, comments, and the output folder `qa/ticket-$ARGUMENTS/`.
@@ -45,3 +48,12 @@ Launch the **tester** agent with the issue number, body, comments, and the outpu
 5. `gh issue edit $ARGUMENTS --add-label needs-review`
 6. `gh issue comment $ARGUMENTS` with exactly three lines: what changed · tester result and widths · PR link.
 7. Stop. Never merge, never close the issue, never push to `epic` or `main`.
+
+## Re-test (an open PR exists)
+Hannah runs `/ticket <n>` again when she judges that new commits on the PR need testing. Nothing re-tests on its own.
+1. Same uncommitted-changes check as step 2, then `git fetch origin`, `git switch ticket-$ARGUMENTS`, `git pull --ff-only`.
+2. Last tested commit: `git log -1 --format=%H -- qa/ticket-$ARGUMENTS`. New work since then: `git log --oneline <that>..HEAD -- . ":(exclude)qa/ticket-$ARGUMENTS"`. If there is none, tell Hannah nothing has changed since the last test and stop, unless she asked to test anyway.
+3. Launch the **tester** with the issue body, comments, the PR number, that commit list, and the output folder `qa/ticket-$ARGUMENTS/`.
+4. **PASS:** stage only `qa/ticket-$ARGUMENTS/`, commit `#$ARGUMENTS Re-test after <short SHAs>`, `git push`, and `gh pr comment <pr>` with the tester result, the widths, and the commits it covered.
+5. **FAIL:** commit nothing. Post the FAIL table on the PR with `gh pr comment`, then stop and ask Hannah whether to send the rows to the owners. Don't start fixes on your own.
+6. Stop. Same rules as step 5.7.
