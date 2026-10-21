@@ -15,6 +15,7 @@ The old site's look (ivory, burgundy, Cormorant) is **not** this site's design s
 | `--color-bg` | `#fff` | page background | — |
 | `--color-text` | `#111` | text, borders, focus ring, fill of the solid button | 18.9:1 on `--color-bg` |
 | `--color-on-ink` | `#fff` | text on a `--color-text` fill (solid button) | 18.9:1 on `#111` |
+| `--color-surface` | `#ececec` | nav pill and its narrow menu pop-up (light grey field) | `--color-text` on it: 16.0:1 |
 
 ## Type
 | Role | Family | Details |
@@ -39,7 +40,7 @@ Fonts load in `index.html` (`<link>` to Google Fonts or self-hosted files). Reco
 
 ## Spacing, radii, breakpoints
 - Spacing: `--space-1` 0.25rem · `--space-2` 0.5rem · `--space-3` 1rem (page side margin) · `--space-4` 1.5rem · `--space-5` 2rem · `--space-6` 3rem · `--space-7` 4rem.
-- Borders and radii: `--border-w` 2px · `--radius-sm` 0.375rem (buttons). Photos have square corners.
+- Borders and radii: `--border-w` 2px · `--radius-sm` 0.375rem (buttons) · `--radius-lg` 1.5rem (the nav's menu pop-up) · `--radius-pill` 999px (the nav pill). Photos have square corners.
 - Focus: `--focus-w` 2px solid `--color-text`, `--focus-offset` 3px, on `:focus-visible`.
 - Sizes: `--target-min` 2.75rem (44px touch target) · `--button-h` 3rem (48px button height) · `--figure-h` `calc(var(--initial-span) * 1.6)` (hero figure: 258 / 226 / 207px at 1440 / 1024 / 768; the H reaches her shoulder) · `--outline-dot` 2px (dot diameter of the figure's dotted drawing) · `--outline-gap` 4.5px (spacing between its dot centres; small, tight dots so the face, arm and card read at 207–258px tall). The outline uses `vector-effect: non-scaling-stroke`, so both are screen pixels.
 - Motion: `--dur-quick` 200ms · `--ease-state` ease (owned by the motion-engineer; uses are tabled in `.claude/skills/motion/SKILL.md`).
@@ -47,7 +48,7 @@ Fonts load in `index.html` (`<link>` to Google Fonts or self-hosted files). Reco
 
 | Name | Query | Token | Notes |
 |---|---|---|---|
-| narrow | `@media (max-width: 30rem)` | `--bp-narrow: 30rem` (reference only; media queries can't read custom properties) | 480px: 390 is narrow, 768 and up are not. The hero's text column centres. |
+| narrow | `@media (max-width: 30rem)` | `--bp-narrow: 30rem` (reference only; media queries can't read custom properties) | 480px: 390 is narrow, 768 and up are not. The hero's text column centres. The nav swaps its four section links for a Menu button and pop-up. |
 | not desktop | `@media (max-width: 30rem), not all and (hover: hover) and (pointer: fine)` | – (input-capability query, not a width) | Narrow or no hover-capable pointer. Hides the hero figure and the big H and returns to one text column. "Desktop" (the base styles) is everything else. |
 
 ## Assets
