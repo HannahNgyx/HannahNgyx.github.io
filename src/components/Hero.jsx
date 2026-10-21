@@ -52,7 +52,11 @@ export default function Hero() {
           <span className="hero__worked-label">I worked at:</span>{" "}
           {companies.map((c, i) => (
             <span key={c.name}>
-              <a href={c.href}>{c.name}</a>
+              {/* HERO-9: the rainbow copy is aria-hidden, so the link's name is read once */}
+              <a className="hero__company" href={c.href} data-rainbow>
+                <span className="hero__company-name">{c.name}</span>
+                <span className="hero__company-rainbow" aria-hidden="true">{c.name}</span>
+              </a>
               {i < companies.length - 1 ? ", " : ""}
             </span>
           ))}

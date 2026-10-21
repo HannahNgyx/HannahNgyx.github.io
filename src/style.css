@@ -9,6 +9,20 @@
   --color-on-ink: #fff;
   --color-surface: #ececec; /* nav pill and menu; --color-text on it is 16.0:1 */
 
+  /* Rainbow (#12): deep stops, each >= 5.4:1 on --color-bg and --color-surface and
+     under --color-on-ink. Still; never animated. Only for the worked-at link text, the
+     nav's Contact divider / menu line, the desktop nav spot and the no-hover nav pill. */
+  --rainbow-red: #b91c1c;
+  --rainbow-orange: #9a3412;
+  --rainbow-yellow: #854d0e;
+  --rainbow-green: #166534;
+  --rainbow-blue: #1d4ed8;
+  --rainbow-violet: #6d28d9;
+  --rainbow-stops: var(--rainbow-red), var(--rainbow-orange), var(--rainbow-yellow),
+    var(--rainbow-green), var(--rainbow-blue), var(--rainbow-violet);
+  --gradient-rainbow: linear-gradient(90deg, var(--rainbow-stops));
+  --gradient-rainbow-vertical: linear-gradient(180deg, var(--rainbow-stops));
+
   /* Fonts */
   --font-body: "Be Vietnam Pro", system-ui, sans-serif;
   --font-display: "Fraunces", Georgia, serif;
@@ -17,6 +31,7 @@
   --fs-display: clamp(2.5rem, 1.5rem + 3.5vw, 5rem);
   --fs-lead: clamp(1.125rem, 1rem + 0.4vw, 1.375rem);
   --fs-body: 1rem;
+  --fs-small: 0.875rem; /* 14px: the "I worked at" line */
   --fs-hint: 0.6875rem; /* 11px: "Hover to" keeps >= 4px from the dots at 768 */
 
   /* Big initial H (desktop). Its cap height spans from the cap top of the h1 line to the
@@ -24,6 +39,7 @@
      descent .255 / cap .700) and three subtitle lines (line-height 1.45, Be Vietnam Pro
      ascent 1.0 / descent .265), plus the --space-2 gap between them. */
   --cap-display: 0.7;
+  --cap-body: 0.74; /* Be Vietnam Pro cap height per em */
   --initial-span: calc(0.8885 * var(--fs-display) + 3.9925 * var(--fs-lead) + var(--space-2));
   --fs-initial: calc(var(--initial-span) / var(--cap-display));
 
@@ -50,6 +66,7 @@
   --figure-h: calc(var(--initial-span) * 1.6); /* the H comes up to her shoulder */
   --outline-dot: 2px;    /* dot diameter of the silhouette outline */
   --outline-gap: 4.5px;  /* centre-to-centre spacing of its dots */
+  --nav-spot-r: 1.5rem;  /* radius of the desktop nav's rainbow cursor spot (48px circle) */
 
   /* Motion (recorded in .claude/skills/motion/SKILL.md) */
   --dur-quick: 200ms;  /* hover and state changes */
@@ -164,6 +181,127 @@ main {
   cursor: pointer;
 }
 
+/* Contact divider (NAV-7): a short vertical rainbow bar centred in the gap before
+   "Contact", one cap height tall and centred on the text (the body font's caps sit
+   on the line's middle). Absolute, so it takes no space and adds no target. */
+.nav__item--contact {
+  position: relative;
+}
+
+.nav__item--contact::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(-0.5 * var(--space-5) - 0.5 * var(--border-w));
+  inline-size: var(--border-w);
+  block-size: calc(var(--cap-body) * 1em);
+  margin-block: auto;
+  background: var(--gradient-rainbow-vertical);
+  pointer-events: none;
+}
+
+/* Cursor spot (NAV-9), desktop. Two decorative layers over the pill, clipped to its
+   shape and masked to one hard-edged circle:
+     .nav__spot   the rainbow across the whole pill, painted over the real text
+     .nav__ghost  the text row again in --color-on-ink, painted over the rainbow
+   Painting the rainbow over the real text (not under it) means no dark glyph edge
+   shows around the white copy.
+   Hooks for motion: --spot-x / --spot-y (px from the nav's top-left corner) and
+   [data-spot] on .nav. No [data-spot] -> --spot-r is 0 -> nothing shows.
+   Motion (NAV-9): Nav.jsx sets --spot-x/--spot-y straight from the pointer (no
+   transition on position) and toggles [data-spot] on enter/leave. The radius grows
+   0 -> --nav-spot-r on enter and shrinks back on leave over --dur-quick --ease-state.
+   A mask circle can't be scaled with transform without scaling the text under it, so
+   --spot-r is registered (@property) and transitioned: a repaint of the two masked
+   layers for 200ms, no layout. Instant under reduced motion. */
+@property --spot-r {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+.nav {
+  --spot-x: 0px;
+  --spot-y: 0px;
+  --spot-r: 0px;
+  transition: --spot-r var(--dur-quick) var(--ease-state);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav {
+    transition: none;
+  }
+}
+
+.nav[data-spot] {
+  --spot-r: var(--nav-spot-r);
+}
+
+.nav__spot,
+.nav__ghost {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  user-select: none;
+  -webkit-mask-image: radial-gradient(circle var(--spot-r) at var(--spot-x) var(--spot-y), black 100%, transparent 100%);
+  mask-image: radial-gradient(circle var(--spot-r) at var(--spot-x) var(--spot-y), black 100%, transparent 100%);
+}
+
+.nav__spot {
+  background: var(--gradient-rainbow);
+}
+
+/* Same box, padding and row layout as .nav, so each copied word lands on the real one */
+.nav__ghost {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+}
+
+.nav__ghost .nav__link {
+  color: var(--color-on-ink);
+}
+
+/* A hovered link keeps its underline (NAV-5) inside the spot */
+.nav:has(> .nav__name:hover) .nav__ghost > .nav__name,
+.nav:has(.nav__menu > li:nth-child(1) > .nav__link:hover) .nav__ghost .nav__menu > :nth-child(1) > .nav__link,
+.nav:has(.nav__menu > li:nth-child(2) > .nav__link:hover) .nav__ghost .nav__menu > :nth-child(2) > .nav__link,
+.nav:has(.nav__menu > li:nth-child(3) > .nav__link:hover) .nav__ghost .nav__menu > :nth-child(3) > .nav__link,
+.nav:has(.nav__menu > li:nth-child(4) > .nav__link:hover) .nav__ghost .nav__menu > :nth-child(4) > .nav__link {
+  text-decoration: underline;
+}
+
+/* ---------- Nav, not desktop: narrow, or no hover-capable pointer ---------- */
+/* The whole pill is the rainbow (NAV-10) with white controls and white focus rings;
+   no cursor spot. The Contact divider turns white so it shows on the rainbow. */
+
+@media (max-width: 30rem), not all and (hover: hover) and (pointer: fine) {
+  .nav {
+    background: var(--gradient-rainbow);
+  }
+
+  .nav__spot,
+  .nav__ghost {
+    display: none;
+  }
+
+  .nav__link,
+  .nav__toggle {
+    color: var(--color-on-ink);
+  }
+
+  .nav :is(.nav__link, .nav__toggle):focus-visible {
+    outline-color: var(--color-on-ink);
+  }
+
+  .nav__item--contact::before {
+    background: var(--color-on-ink);
+  }
+}
+
 /* ---------- Nav, narrow: max-width 30rem (--bp-narrow) ---------- */
 /* Name + Menu button in the pill; the four links move into a pop-up panel under the
    pill's inline-end edge. Closed: hidden (visibility, so it is out of the tab order and
@@ -207,6 +345,25 @@ main {
       opacity var(--dur-quick) var(--ease-state),
       transform var(--dur-quick) var(--ease-state),
       visibility 0s;
+  }
+
+  /* The pop-up is grey, not part of the rainbow pill: dark links, dark focus rings */
+  .nav__menu .nav__link {
+    color: var(--color-text);
+  }
+
+  .nav .nav__menu .nav__link:focus-visible {
+    outline-color: var(--color-text);
+  }
+
+  /* NAV-8: the divider becomes a horizontal rainbow line along the Contact row's top */
+  .nav__item--contact::before {
+    inset-block: 0 auto;
+    inset-inline: 0;
+    inline-size: auto;
+    block-size: var(--border-w);
+    margin-block: 0;
+    background: var(--gradient-rainbow);
   }
 }
 
@@ -360,6 +517,7 @@ main {
   grid-row: 3;
   contain: inline-size; /* wraps inside the group's width instead of widening it */
   margin: var(--space-4) 0 0;
+  font-size: var(--fs-small); /* HERO-10 */
   line-height: var(--target-min);
   text-align: center;
   text-wrap: balance;
@@ -367,6 +525,7 @@ main {
 
 .hero__worked a {
   position: relative;
+  margin-inline-start: var(--space-1); /* at 14px, keeps short names' 44px hit areas apart (Zyro / MiTek) */
   color: var(--color-text);
   text-decoration: underline;
   text-decoration-color: var(--color-text);
@@ -379,6 +538,56 @@ main {
   position: absolute;
   inset-block: calc(50% - var(--target-min) / 2);
   inset-inline: min(0px, (100% - var(--target-min)) / 2);
+}
+
+/* Rainbow on hover and focus (HERO-9). An aria-hidden copy of the name, filled with
+   the rainbow, lies exactly over the name. Rest: copy opacity 0, name 1. Hover/focus:
+   copy 1, name 0. Opacity only, so motion can fade it ([data-rainbow] on the link).
+   line-height: normal makes the copy's line box the link's content area, so its
+   baseline meets the name's. Its own underline replaces the name's while it shows. */
+.hero__company-rainbow {
+  display: none;
+}
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .hero__company-rainbow {
+    display: block;
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    line-height: normal;
+    white-space: nowrap;
+    background: var(--gradient-rainbow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-decoration: underline;
+    text-decoration-color: var(--color-text);
+    text-underline-offset: 0.2em;
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* Motion (HERO-9): opacity-only cross-fade, --dur-quick --ease-state; instant
+     under reduced motion. */
+  .hero__company[data-rainbow] :is(.hero__company-name, .hero__company-rainbow) {
+    transition: opacity var(--dur-quick) var(--ease-state);
+  }
+
+  .hero__company[data-rainbow]:is(:hover, :focus-visible) .hero__company-rainbow {
+    opacity: 1;
+  }
+
+  .hero__company[data-rainbow]:is(:hover, :focus-visible) .hero__company-name {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__company[data-rainbow] :is(.hero__company-name, .hero__company-rainbow) {
+      transition: none;
+    }
+  }
 }
 
 /* ---------- Narrow (max-width 30rem) or no hover-capable pointer ---------- */
