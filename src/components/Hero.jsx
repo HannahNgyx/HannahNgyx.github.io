@@ -1,5 +1,6 @@
 import cutout from "../../images/hannah-cutout.png";
 import resume from "../../Hannah_Nguyen_resume_2026.pdf?url";
+import ProjectVideos from "./ProjectVideos.jsx";
 
 const companies = [
   { name: "Tarmac.IO", href: "https://tarmac.io" },
@@ -62,6 +63,7 @@ export default function Hero() {
           ))}
         </p>
       </div>
+      <ProjectVideos />
     </section>
   );
 }
