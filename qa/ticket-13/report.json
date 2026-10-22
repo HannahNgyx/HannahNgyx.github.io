@@ -1,0 +1,22 @@
+{
+  "url": "http://localhost:5174/",
+  "shots": [
+    "1440-normal-top.jpg",
+    "1440-normal.jpg",
+    "1024-normal-top.jpg",
+    "1024-normal.jpg",
+    "768-normal-top.jpg",
+    "768-normal.jpg",
+    "390-normal-top.jpg",
+    "390-normal.jpg",
+    "1440-reduce-top.jpg",
+    "1440-reduce.jpg",
+    "1024-reduce-top.jpg",
+    "1024-reduce.jpg",
+    "768-reduce-top.jpg",
+    "768-reduce.jpg",
+    "390-reduce-top.jpg",
+    "390-reduce.jpg"
+  ],
+  "warnings": []
+}
