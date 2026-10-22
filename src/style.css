@@ -67,6 +67,7 @@
   --outline-dot: 2px;    /* dot diameter of the silhouette outline */
   --outline-gap: 4.5px;  /* centre-to-centre spacing of its dots */
   --nav-spot-r: 1.5rem;  /* radius of the desktop nav's rainbow cursor spot (48px circle) */
+  --card-w: 16rem;       /* project video card width beside the hero (VIDEO-2); narrower if its column is */
 
   /* Motion (recorded in .claude/skills/motion/SKILL.md) */
   --dur-quick: 200ms;  /* hover and state changes */
@@ -74,6 +75,7 @@
 
   /* Breakpoints (media queries can't read custom properties; kept for reference) */
   --bp-narrow: 30rem;
+  --bp-stack: 64rem;  /* at or below: no video cards (VIDEO-4); #20's ring reuses it */
 }
 
 * { box-sizing: border-box; }
@@ -380,6 +382,20 @@ main {
   padding-block-start: var(--space-7);
 }
 
+/* Above 64rem the hero is three columns: [cards 1, 2][hero group][cards 3, 4]. The two
+   side columns are equal, so the group stays centred (HERO-6); the cards' list subgrids
+   them (VIDEO-2). The stack block at the end hides the cards and returns to a block. */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+
+.hero > .hero__group {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start; /* the cards may make the row taller; the group's own rows must not stretch */
+}
+
 /* Desktop is the base: [figure][big H | h1 rest / subtitle], buttons and worked-at line
    centred under the whole group. The two blocks at the end return narrow and no-hover
    screens to the plain centred text column. */
@@ -659,5 +675,138 @@ main {
 
   .hero__worked-label {
     display: block;
+  }
+}
+
+/* ---------- Project video cards (VIDEO-1..5) ---------- */
+/* Base (above 64rem): the list overlaps the hero's row and subgrids its three columns.
+   Cards 1, 2 sit in the inline-start column, 3, 4 in the inline-end one. Upper cards
+   start level with the h1's top, lower cards level with the buttons row's top; both
+   offsets are worked out from the hero's own tokens (see .hero__figure / .hero__text).
+   The list ignores the pointer so the hero under it stays hoverable; the cards don't.
+   z-index 2 keeps the cards above any hero-level decoration (the figure is 1; #20's ring).
+   Motion hooks: a[data-float] (rotate is set here, so motion can add translate/scale)
+   and video[data-autoplay] (VIDEO-5). */
+.videos {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: subgrid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+  /* h1 top = figure row (figure + its bottom margin) minus the text block (h1 line,
+     --space-2, three subtitle lines); buttons top = figure row + --space-5 */
+  --videos-upper-top: calc(var(--figure-h) - 1.1 * var(--fs-display) - var(--space-2) - 3.9925 * var(--fs-lead));
+  --videos-lower-top: calc(var(--figure-h) + 0.3575 * var(--fs-lead) + var(--space-5) + var(--videos-tilt-room));
+  /* A tilted card's corners reach up to ~6px past its box; this room around each card
+     keeps the corners --space-5 clear of the hero and inside <main>'s padding */
+  --videos-tilt-room: var(--space-2);
+}
+
+.videos__item {
+  grid-row: 1;
+  align-self: start;
+  inline-size: min(var(--card-w), 100% - var(--space-5) - 2 * var(--videos-tilt-room));
+}
+
+/* Upper cards: --space-5 (plus the tilt room) clear of the group. Lower cards: --space-5
+   nearer the centre, just the tilt room from the group's edge, beside the (narrower)
+   buttons row, and the tilt room below the buttons row's top. */
+.videos__item:nth-child(1),
+.videos__item:nth-child(2) {
+  grid-column: 1;
+  justify-self: end;
+}
+
+.videos__item:nth-child(3),
+.videos__item:nth-child(4) {
+  grid-column: 3;
+  justify-self: start;
+}
+
+.videos__item:nth-child(1) { margin-inline-end: calc(var(--space-5) + var(--videos-tilt-room)); }
+.videos__item:nth-child(2) { margin-inline-end: var(--videos-tilt-room); }
+.videos__item:nth-child(3) { margin-inline-start: calc(var(--space-5) + var(--videos-tilt-room)); }
+.videos__item:nth-child(4) { margin-inline-start: var(--videos-tilt-room); }
+
+.videos__item:nth-child(odd) { margin-block-start: var(--videos-upper-top); }
+.videos__item:nth-child(even) { margin-block-start: var(--videos-lower-top); }
+
+.video-card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: var(--border-w) solid var(--color-text);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+/* Static tilt (VIDEO-3): the rotate property, so transform stays free for motion */
+.videos__item:nth-child(1) .video-card { rotate: -3deg; }
+.videos__item:nth-child(2) .video-card { rotate: 4deg; }
+.videos__item:nth-child(3) .video-card { rotate: -2deg; }
+.videos__item:nth-child(4) .video-card { rotate: 3deg; }
+
+.video-card__placeholder {
+  display: grid;
+  padding: var(--space-2);
+}
+
+.video-card__title {
+  font-weight: 600;
+}
+
+.video-card__video {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+/* With a video, the title is still the link's name but isn't shown */
+.video-card__title--hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- Video cards, not desktop above 64rem: no figure ---------- */
+/* The group is the text column alone: the h1 is the group's top, and the buttons
+   row starts after the h1 line, --space-2 and three subtitle lines. */
+
+@media (max-width: 30rem), not all and (hover: hover) and (pointer: fine) {
+  .videos {
+    --videos-upper-top: 0px;
+    --videos-lower-top: calc(1.1 * var(--fs-display) + var(--space-2) + 4.35 * var(--fs-lead) + var(--space-5) + var(--videos-tilt-room));
+  }
+}
+
+/* ---------- Stack: max-width 64rem (--bp-stack) ---------- */
+/* The cards can't keep their places beside the hero, so they aren't rendered (VIDEO-4;
+   display: none takes them out of the tab order and the accessibility tree). The hero
+   goes back to a plain block, exactly as before the cards existed. */
+
+@media (max-width: 64rem) {
+  .hero {
+    display: block;
+  }
+
+  .videos {
+    display: none;
   }
 }
