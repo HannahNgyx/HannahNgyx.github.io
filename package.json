@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "qa:shots": "node scripts/qa-screenshots.mjs"
+    "qa:shots": "node scripts/qa-screenshots.mjs",
+    "check:layers": "node scripts/check-layers.mjs"
   },
   "dependencies": {
     "react": "^19.3.0",

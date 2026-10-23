@@ -1,0 +1,152 @@
+/* Cursor spot (NAV-9), desktop. Two decorative layers over the pill (enhance/NavSpot.jsx),
+   clipped to its shape and masked to one hard-edged circle:
+     .nav__spot   the rainbow across the whole pill, painted over the real text
+     .nav__ghost  the text row again in --color-on-ink, painted over the rainbow
+   Painting the rainbow over the real text (not under it) means no dark glyph edge
+   shows around the white copy.
+   Hooks: --spot-x / --spot-y (px from the nav's top-left corner) and [data-spot] on .nav.
+   No [data-spot] -> --spot-r is 0 -> nothing shows.
+   Motion: NavSpot.jsx sets --spot-x/--spot-y straight from the pointer (no transition on
+   position) and toggles [data-spot] on enter/leave. The radius grows 0 -> --nav-spot-r on
+   enter and shrinks back on leave over --dur-quick --ease-state. A mask circle can't be
+   scaled with transform without scaling the text under it, so --spot-r is registered
+   (@property) and transitioned: a repaint of the two masked layers for 200ms, no layout
+   (NAV-9's exception to M-1). Instant under reduced motion. */
+@property --spot-r {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@layer enhance {
+  .nav {
+    --spot-x: 0px;
+    --spot-y: 0px;
+    --spot-r: 0px;
+    transition: --spot-r var(--dur-quick) var(--ease-state);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav {
+      transition: none;
+    }
+  }
+
+  .nav[data-spot] {
+    --spot-r: var(--nav-spot-r);
+  }
+
+  .nav__spot,
+  .nav__ghost {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    user-select: none;
+    -webkit-mask-image: radial-gradient(circle var(--spot-r) at var(--spot-x) var(--spot-y), black 100%, transparent 100%);
+    mask-image: radial-gradient(circle var(--spot-r) at var(--spot-x) var(--spot-y), black 100%, transparent 100%);
+  }
+
+  .nav__spot {
+    background: var(--gradient-rainbow);
+  }
+
+  /* Same box, padding and row layout as .nav, so each copied word lands on the real one */
+  .nav__ghost {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .nav__ghost .nav__link {
+    color: var(--color-on-ink);
+  }
+
+  /* A hovered link keeps its underline (NAV-5) inside the spot */
+  .nav:has(> .nav__name:hover) .nav__ghost > .nav__name,
+  .nav:has(.nav__menu > li:nth-child(1) > .nav__link:hover) .nav__ghost .nav__menu > :nth-child(1) > .nav__link,
+  .nav:has(.nav__menu > li:nth-child(2) > .nav__link:hover) .nav__ghost .nav__menu > :nth-child(2) > .nav__link,
+  .nav:has(.nav__menu > li:nth-child(3) > .nav__link:hover) .nav__ghost .nav__menu > :nth-child(3) > .nav__link,
+  .nav:has(.nav__menu > li:nth-child(4) > .nav__link:hover) .nav__ghost .nav__menu > :nth-child(4) > .nav__link {
+    text-decoration: underline;
+  }
+
+  /* Contact divider (NAV-11): the rainbow, top to bottom */
+  .nav__item--contact::before {
+    background: var(--gradient-rainbow-vertical);
+  }
+
+  /* ---------- Nav, not desktop: narrow, or no hover-capable pointer ---------- */
+  /* The whole pill is the rainbow (NAV-10) with white controls and white focus rings;
+     no cursor spot. The Contact divider turns white so it shows on the rainbow. */
+  @media (max-width: 30rem), not all and (hover: hover) and (pointer: fine) {
+    .nav {
+      background: var(--gradient-rainbow);
+    }
+
+    .nav__spot,
+    .nav__ghost {
+      display: none;
+    }
+
+    .nav__link,
+    .nav__toggle {
+      color: var(--color-on-ink);
+    }
+
+    .nav :is(.nav__link, .nav__toggle):focus-visible {
+      outline-color: var(--color-on-ink);
+    }
+
+    .nav__item--contact::before {
+      background: var(--color-on-ink);
+    }
+  }
+
+  /* ---------- Nav, narrow: max-width 30rem (--bp-narrow) ---------- */
+  /* Menu motion (NAV-12): fade + settle down 4px (--space-1), --dur-quick --ease-state.
+     On close the visibility switch waits for the fade; pointer-events drop at once (base)
+     so the fading panel can't be clicked. */
+  @media (max-width: 30rem) {
+    .nav__menu {
+      opacity: 0;
+      transform: translateY(calc(-1 * var(--space-1)));
+      transition:
+        opacity var(--dur-quick) var(--ease-state),
+        transform var(--dur-quick) var(--ease-state),
+        visibility 0s linear var(--dur-quick);
+    }
+
+    .nav[data-open] .nav__menu {
+      opacity: 1;
+      transform: none;
+      transition:
+        opacity var(--dur-quick) var(--ease-state),
+        transform var(--dur-quick) var(--ease-state),
+        visibility 0s;
+    }
+
+    /* The pop-up is grey, not part of the rainbow pill: dark links, dark focus rings */
+    .nav__menu .nav__link {
+      color: var(--color-text);
+    }
+
+    .nav .nav__menu .nav__link:focus-visible {
+      outline-color: var(--color-text);
+    }
+
+    /* NAV-13: the menu's Contact line is the rainbow, left to right */
+    .nav__item--contact::before {
+      background: var(--gradient-rainbow);
+    }
+  }
+
+  @media (max-width: 30rem) and (prefers-reduced-motion: reduce) {
+    .nav__menu,
+    .nav[data-open] .nav__menu {
+      transition: none;
+    }
+  }
+}
