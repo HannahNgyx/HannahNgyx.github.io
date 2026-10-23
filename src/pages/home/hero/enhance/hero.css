@@ -1,0 +1,95 @@
+@layer enhance {
+  /* Reveal cross-fade (HERO-11): the base swap (HERO-7) fades over --dur-quick
+     --ease-state, opacity only. Instant under reduced motion. */
+  .hero__figure[data-photo-reveal] :is(.hero__outline, .hero__hint, .hero__photo) {
+    transition: opacity var(--dur-quick) var(--ease-state);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__figure[data-photo-reveal] :is(.hero__outline, .hero__hint, .hero__photo) {
+      transition: none;
+    }
+  }
+
+  /* Rainbow on hover and focus (HERO-9). An aria-hidden copy of the name, filled with
+     the rainbow, lies exactly over the name. Rest: copy opacity 0, name 1. Hover/focus:
+     copy 1, name 0. Opacity only, so it can fade ([data-rainbow] on the link).
+     line-height: normal makes the copy's line box the link's content area, so its
+     baseline meets the name's. Its own underline replaces the name's while it shows. */
+  @supports (background-clip: text) or (-webkit-background-clip: text) {
+    .hero__company-rainbow {
+      display: block;
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-start: 0;
+      line-height: normal;
+      white-space: nowrap;
+      background: var(--gradient-rainbow);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: underline;
+      text-decoration-color: var(--color-text);
+      text-underline-offset: 0.2em;
+      opacity: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Motion (HERO-9): opacity-only cross-fade, --dur-quick --ease-state; instant
+       under reduced motion. */
+    .hero__company[data-rainbow] :is(.hero__company-name, .hero__company-rainbow) {
+      transition: opacity var(--dur-quick) var(--ease-state);
+    }
+
+    .hero__company[data-rainbow]:is(:hover, :focus-visible) .hero__company-rainbow {
+      opacity: 1;
+    }
+
+    .hero__company[data-rainbow]:is(:hover, :focus-visible) .hero__company-name {
+      opacity: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero__company[data-rainbow] :is(.hero__company-name, .hero__company-rainbow) {
+        transition: none;
+      }
+    }
+  }
+
+  /* Card motion (VIDEO-6, VIDEO-7). Float: translate only, 0 -> -6px (--float-y), --dur-float
+     ease-in-out alternate infinite, staggered so no two cards move together. Expand:
+     scale only, 1 -> 1.06 (--scale-hover), --dur-quick --ease-state, on hover (fine
+     pointers) and on keyboard focus. rotate (the tilt) and transform are left alone; the
+     three properties compose. Reduced motion: no float, instant scale. */
+  @keyframes video-card-float {
+    from { translate: 0 0; }
+    to { translate: 0 calc(-1 * var(--float-y)); }
+  }
+
+  .video-card[data-float] {
+    animation: video-card-float var(--dur-float) ease-in-out infinite alternate;
+    transition: scale var(--dur-quick) var(--ease-state);
+  }
+
+  .videos__item:nth-child(2) .video-card[data-float] { animation-delay: -1.5s; }
+  .videos__item:nth-child(3) .video-card[data-float] { animation-delay: -3s; }
+  .videos__item:nth-child(4) .video-card[data-float] { animation-delay: -4.5s; }
+
+  .video-card[data-float]:focus-visible {
+    scale: var(--scale-hover);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .video-card[data-float]:hover {
+      scale: var(--scale-hover);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .video-card[data-float] {
+      animation: none;
+      transition: none;
+    }
+  }
+}

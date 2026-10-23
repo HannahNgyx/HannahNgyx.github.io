@@ -1,0 +1,11 @@
+{
+  "label": "Main",
+  "name": { "label": "Hannah Nguyen", "href": "#main" },
+  "menu": "Menu",
+  "sections": [
+    { "label": "Projects", "href": "#projects" },
+    { "label": "Experience", "href": "#experience" },
+    { "label": "Endorsements", "href": "#endorsements" },
+    { "label": "Contact", "href": "#contact" }
+  ]
+}

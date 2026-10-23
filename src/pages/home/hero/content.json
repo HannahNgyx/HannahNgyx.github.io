@@ -1,0 +1,31 @@
+{
+  "title": "Hey, I’m Hannah",
+  "lead": "Full-stack software engineer with experience shipping alongside stakeholders",
+  "figure": {
+    "alt": "Hannah Nguyen",
+    "hint": ["Hover to", "see me"]
+  },
+  "actions": {
+    "resume": "My resume",
+    "contact": { "label": "Contact me", "href": "#contact" }
+  },
+  "worked": {
+    "label": "I worked at:",
+    "companies": [
+      { "name": "Tarmac.IO", "href": "https://tarmac.io" },
+      { "name": "Azimuthsemi.com", "href": "https://azimuthsemi.com" },
+      { "name": "Zyro", "href": "https://thezyro.com/" },
+      { "name": "MiTek", "href": "https://www.mitek-us.com" }
+    ]
+  },
+  "videos": {
+    "label": "Project videos",
+    "placeholder": "Video #{n}",
+    "projects": [
+      { "title": "Project 1", "video": null, "href": "#projects" },
+      { "title": "Project 2", "video": null, "href": "#projects" },
+      { "title": "Project 3", "video": null, "href": "#projects" },
+      { "title": "Project 4", "video": null, "href": "#projects" }
+    ]
+  }
+}

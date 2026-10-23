@@ -16,6 +16,6 @@ The four video cards around the hero play `project1.mp4` … `project4.mp4` from
    sh scripts/encode-video.sh <input.mov> <n>
    ```
 
-2. Open `src/content/projects.js` and edit that card's line: set `video` to `"videos/project<n>.mp4"` (and the `title` and `href` once the project is picked).
+2. Open `src/pages/home/hero/content.json` and edit that card's entry under `videos.projects`: set `video` to `"videos/project<n>.mp4"` (and the `title` and `href` once the project is picked).
 
 A card with `video: null` shows the "Video #N / Project N" placeholder.

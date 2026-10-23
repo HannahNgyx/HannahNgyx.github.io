@@ -1,0 +1,120 @@
+/* ---------- Nav (NAV-1..8), base ---------- */
+/* A grey pill: name at the inline-start, four section links at the inline-end.
+   Narrow screens swap the links for a Menu button and a pop-up (block below).
+   The rainbow, the cursor spot and the menu's fade are in enhance/nav.css. */
+
+@layer base {
+  .nav {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    inline-size: min(60rem, 100% - 2 * var(--space-3));
+    margin: var(--space-5) auto 0;
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-surface);
+    border-radius: var(--radius-pill);
+  }
+
+  .nav__menu {
+    display: flex;
+    gap: var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav__link,
+  .nav__toggle {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--target-min);
+    min-inline-size: var(--target-min);
+    color: var(--color-text);
+    font-size: var(--fs-body);
+    text-decoration: none;
+    text-underline-offset: 0.2em;
+  }
+
+  .nav__name {
+    font-weight: 600;
+  }
+
+  .nav__link:hover,
+  .nav__toggle:hover {
+    text-decoration: underline;
+  }
+
+  /* The Menu button only exists when narrow */
+  .nav__toggle {
+    display: none;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-family: inherit;
+    line-height: inherit;
+    cursor: pointer;
+  }
+
+  /* Contact divider (NAV-7): a short vertical bar centred in the gap before "Contact",
+     one cap height tall and centred on the text (the body font's caps sit on the line's
+     middle). Absolute, so it takes no space and adds no target. Solid here; enhance
+     fills it with the rainbow (NAV-11). */
+  .nav__item--contact {
+    position: relative;
+  }
+
+  .nav__item--contact::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: calc(-0.5 * var(--space-5) - 0.5 * var(--border-w));
+    inline-size: var(--border-w);
+    block-size: calc(var(--cap-body) * 1em);
+    margin-block: auto;
+    background: var(--color-text);
+    pointer-events: none;
+  }
+
+  /* ---------- Nav, narrow: max-width 30rem (--bp-narrow) ---------- */
+  /* Name + Menu button in the pill; the four links move into a pop-up panel under the
+     pill's inline-end edge. Closed: hidden (visibility, so it is out of the tab order and
+     the accessibility tree) and unclickable. Open: [data-open] on .nav. Here it switches
+     at once; enhance fades it (NAV-12). */
+  @media (max-width: 30rem) {
+    .nav__toggle {
+      display: inline-flex;
+    }
+
+    .nav__menu {
+      display: flex;
+      visibility: hidden;
+      pointer-events: none;
+      position: absolute;
+      z-index: 2;
+      inset-block-start: calc(100% + var(--space-2));
+      inset-inline-end: 0;
+      flex-direction: column;
+      gap: 0;
+      padding: var(--space-2) var(--space-4);
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+    }
+
+    .nav[data-open] .nav__menu {
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* NAV-8: the divider becomes a horizontal line along the Contact row's top */
+    .nav__item--contact::before {
+      inset-block: 0 auto;
+      inset-inline: 0;
+      inline-size: auto;
+      block-size: var(--border-w);
+      margin-block: 0;
+    }
+  }
+}

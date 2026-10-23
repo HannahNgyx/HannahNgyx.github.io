@@ -37,4 +37,4 @@ mkdir -p "$outdir"
 ffmpeg -i "$input" -t 8 -vf "scale=-2:720" -c:v libx264 -crf 28 -preset slow -an -movflags +faststart "$out"
 
 echo "Wrote $out"
-echo "Next: in src/content/projects.js set entry $n's video to \"videos/project$n.mp4\"."
+echo "Next: in src/pages/home/hero/content.json set videos.projects entry $n's video to \"videos/project$n.mp4\"."
