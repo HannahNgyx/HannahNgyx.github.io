@@ -16,12 +16,19 @@ async function loadEnhance() {
   return slots;
 }
 
-loadEnhance().then((slots) => {
-  createRoot(document.getElementById("root")).render(
-    <StrictMode>
-      <EnhanceContext.Provider value={slots}>
-        <App />
-      </EnhanceContext.Provider>
-    </StrictMode>,
-  );
-});
+// A failed enhance load must never blank the page: report it and render base alone.
+loadEnhance()
+  .catch((error) => {
+    console.error("Enhance layer failed to load; rendering base only.", error);
+    document.documentElement.dataset.enhance = "off";
+    return {};
+  })
+  .then((slots) => {
+    createRoot(document.getElementById("root")).render(
+      <StrictMode>
+        <EnhanceContext.Provider value={slots}>
+          <App />
+        </EnhanceContext.Provider>
+      </StrictMode>,
+    );
+  });
