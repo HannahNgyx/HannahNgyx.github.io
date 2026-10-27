@@ -1,0 +1,21 @@
+@layer base {
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.5;
+  }
+
+  :focus-visible {
+    outline: var(--focus-w) solid var(--color-text);
+    outline-offset: var(--focus-offset);
+  }
+
+  main {
+    padding-inline: var(--space-3);
+  }
+}

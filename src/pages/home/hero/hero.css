@@ -1,0 +1,413 @@
+/* Hero (HERO-1..10, HERO-12) and its project video cards (VIDEO-1..4, VIDEO-8), base.
+   The reveal's cross-fade, the worked-at rainbow and the cards' float and expand are in
+   enhance/hero.css. */
+
+@layer base {
+  /* ---------- Button ---------- */
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: var(--button-h);
+    padding-inline: var(--space-4);
+    border: var(--border-w) solid var(--color-text);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-body);
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .button--solid {
+    background: var(--color-text);
+    color: var(--color-on-ink);
+  }
+
+  .button--outline {
+    background: transparent;
+    color: var(--color-text);
+  }
+
+  /* ---------- Hero ---------- */
+
+  .hero {
+    padding-block-start: var(--space-7);
+  }
+
+  /* Above 64rem the hero is three columns: [cards 1, 2][hero group][cards 3, 4]. The two
+     side columns are equal, so the group stays centred (HERO-6); the cards' list subgrids
+     them (VIDEO-2). The stack block at the end hides the cards and returns to a block. */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+
+  .hero > .hero__group {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start; /* the cards may make the row taller; the group's own rows must not stretch */
+  }
+
+  /* Desktop is the base: [figure][big H | h1 rest / subtitle], buttons and worked-at line
+     centred under the whole group. The two blocks at the end return narrow and no-hover
+     screens to the plain centred text column. */
+  .hero__group {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+  }
+
+  /* Figure: dotted silhouette + hint at rest, colour photo stacked on top and hidden.
+     Hover reveals the photo ([data-photo-reveal], below .hero__photo).
+     It stands on the H's baseline, and its right margin pulls the empty side of the
+     600x800 box (x 460-600, right of her shoulder blade) over the H, so her back meets
+     the H's left stem. */
+  .hero__figure {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    block-size: var(--figure-h);
+    aspect-ratio: 3 / 4;
+    margin-block-end: calc(0.3575 * var(--fs-lead)); /* subtitle box bottom to its last baseline */
+    margin-inline-end: calc(var(--figure-h) * 0.75 * -0.245 - var(--fs-initial) * 0.031);
+  }
+
+  .hero__outline,
+  .hero__photo {
+    grid-area: 1 / 1;
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .hero__outline path {
+    fill: none;
+    stroke: var(--color-text);
+    stroke-width: var(--outline-dot);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 0 var(--outline-gap);
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* Two lines ("Hover to / see me", broken in the markup) on the lower torso, the one
+     open area below her elbow where no line of the drawing runs (y ~696-782 of the
+     600x800 box, centred on x ~288). */
+  .hero__hint {
+    position: absolute;
+    inset-block-start: 87%;
+    inset-inline: 0 4%; /* centres it on x 288, the open area's middle (the drawing itself does not mirror) */
+    inline-size: fit-content;
+    margin-inline: auto;
+    font-size: var(--fs-hint);
+    line-height: 1.1;
+    white-space: nowrap;
+    text-align: center;
+    color: var(--color-text);
+  }
+
+  .hero__photo {
+    opacity: 0;
+  }
+
+  /* Reveal (HERO-7): hovering the figure box swaps the outline and hint out and the
+     colour photo in, at once here (enhance cross-fades it, HERO-11). Opacity only, so
+     nothing shifts. The figure sits above the big H (z-index 1), so the H never blocks
+     the hover. */
+  .hero__figure[data-photo-reveal]:hover .hero__photo {
+    opacity: 1;
+  }
+
+  .hero__figure[data-photo-reveal]:hover :is(.hero__outline, .hero__hint) {
+    opacity: 0;
+  }
+
+  /* h1 and subtitle share one block so the floated first letter drops beside both */
+  .hero__text {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    display: flow-root;
+  }
+
+  .hero__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--fs-display);
+    font-weight: 400;
+    line-height: 1.1;
+    white-space: nowrap;
+    color: var(--color-text);
+  }
+
+  /* The big H. The h1 keeps its one text node, so it still reads "Hey, I’m Hannah".
+     line-height = cap height makes the float exactly --initial-span tall; with
+     Fraunces' metrics the cap top then sits 0.0115em below the float's top. */
+  .hero__title::first-letter {
+    float: inline-start;
+    font-size: var(--fs-initial);
+    line-height: var(--cap-display);
+    margin-block-start: calc(0.2115 * var(--fs-display) - 0.0115em); /* to the h1's cap top */
+  }
+
+  .hero__lead {
+    max-inline-size: 28ch;
+    margin-block: var(--space-2) 0;
+    margin-inline: auto 0; /* pushed to the end so its right edge meets the h1's */
+    font-size: var(--fs-lead);
+    line-height: 1.45;
+    text-align: end;
+  }
+
+  .hero__actions {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: center;
+    display: flex;
+    gap: var(--space-4);
+    margin-block-start: var(--space-5);
+  }
+
+  .hero__worked {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    contain: inline-size; /* wraps inside the group's width instead of widening it */
+    margin: var(--space-4) 0 0;
+    font-size: var(--fs-small); /* HERO-10 */
+    line-height: var(--target-min);
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .hero__worked a {
+    position: relative;
+    margin-inline-start: var(--space-1); /* at 14px, keeps short names' 44px hit areas apart (Zyro / MiTek) */
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-color: var(--color-text);
+    text-underline-offset: 0.2em;
+  }
+
+  /* 44 x 44 hit area without changing the line's spacing */
+  .hero__worked a::after {
+    content: "";
+    position: absolute;
+    inset-block: calc(50% - var(--target-min) / 2);
+    inset-inline: min(0px, (100% - var(--target-min)) / 2);
+  }
+
+  /* The rainbow copy of each company name (HERO-9) is enhance only (HERO-12) */
+  .hero__company-rainbow {
+    display: none;
+  }
+
+  /* ---------- Narrow (max-width 30rem) or no hover-capable pointer ---------- */
+  /* No figure and no big H: one text column, h1 and subtitle aligned to its end. */
+
+  @media (max-width: 30rem), not all and (hover: hover) and (pointer: fine) {
+    .hero__figure {
+      display: none;
+    }
+
+    .hero__group {
+      grid-template-columns: auto;
+    }
+
+    .hero__text,
+    .hero__actions,
+    .hero__worked {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .hero__title {
+      text-align: end;
+    }
+
+    .hero__title::first-letter {
+      float: none;
+      font-size: inherit;
+      line-height: inherit;
+      margin: 0;
+    }
+  }
+
+  /* ---------- Narrow: max-width 30rem (--bp-narrow) ---------- */
+
+  @media (max-width: 30rem) {
+    .hero__group {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: center;
+    }
+
+    .hero__text,
+    .hero__actions,
+    .hero__worked {
+      justify-self: center;
+    }
+
+    .hero__title {
+      white-space: normal;
+    }
+
+    .hero__title,
+    .hero__lead {
+      text-align: center;
+    }
+
+    .hero__lead {
+      margin-inline: auto;
+    }
+
+    /* "I worked at:" on its own short line, the four links on one line under it.
+       Normal line spacing; the links' ::after layer keeps each hit area 44px tall,
+       and with every link on the same line those areas never overlap. */
+    .hero__worked {
+      contain: none;
+      line-height: 1.5;
+      text-wrap: wrap;
+    }
+
+    .hero__worked-label {
+      display: block;
+    }
+  }
+
+  /* ---------- Project video cards (VIDEO-1..4) ---------- */
+  /* Above 64rem: the list overlaps the hero's row and subgrids its three columns.
+     Cards 1, 2 sit in the inline-start column, 3, 4 in the inline-end one. Upper cards
+     start level with the h1's top, lower cards level with the buttons row's top; both
+     offsets are worked out from the hero's own tokens (see .hero__figure / .hero__text).
+     The list ignores the pointer so the hero under it stays hoverable; the cards don't.
+     z-index 2 keeps the cards above any hero-level decoration (the figure is 1; #20's ring).
+     Motion hooks: a[data-float] (rotate is set here, so motion can add translate/scale)
+     and video[data-autoplay] (VIDEO-5). */
+  .videos {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: subgrid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    pointer-events: none;
+    /* h1 top = figure row (figure + its bottom margin) minus the text block (h1 line,
+       --space-2, three subtitle lines); buttons top = figure row + --space-5 */
+    --videos-upper-top: calc(var(--figure-h) - 1.1 * var(--fs-display) - var(--space-2) - 3.9925 * var(--fs-lead));
+    --videos-lower-top: calc(var(--figure-h) + 0.3575 * var(--fs-lead) + var(--space-5) + var(--videos-tilt-room));
+    /* A tilted card's corners reach up to ~6px past its box; this room around each card
+       keeps the corners --space-5 clear of the hero and inside <main>'s padding */
+    --videos-tilt-room: var(--space-2);
+  }
+
+  .videos__item {
+    grid-row: 1;
+    align-self: start;
+    inline-size: min(var(--card-w), 100% - var(--space-5) - 2 * var(--videos-tilt-room));
+  }
+
+  /* Upper cards: --space-5 (plus the tilt room) clear of the group. Lower cards: --space-5
+     nearer the centre, just the tilt room from the group's edge, beside the (narrower)
+     buttons row, and the tilt room below the buttons row's top. */
+  .videos__item:nth-child(1),
+  .videos__item:nth-child(2) {
+    grid-column: 1;
+    justify-self: end;
+  }
+
+  .videos__item:nth-child(3),
+  .videos__item:nth-child(4) {
+    grid-column: 3;
+    justify-self: start;
+  }
+
+  .videos__item:nth-child(1) { margin-inline-end: calc(var(--space-5) + var(--videos-tilt-room)); }
+  .videos__item:nth-child(2) { margin-inline-end: var(--videos-tilt-room); }
+  .videos__item:nth-child(3) { margin-inline-start: calc(var(--space-5) + var(--videos-tilt-room)); }
+  .videos__item:nth-child(4) { margin-inline-start: var(--videos-tilt-room); }
+
+  .videos__item:nth-child(odd) { margin-block-start: var(--videos-upper-top); }
+  .videos__item:nth-child(even) { margin-block-start: var(--videos-lower-top); }
+
+  .video-card {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: var(--border-w) solid var(--color-text);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: var(--fs-body);
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    pointer-events: auto;
+  }
+
+  /* Static tilt (VIDEO-3): the rotate property, so transform stays free for motion */
+  .videos__item:nth-child(1) .video-card { rotate: -3deg; }
+  .videos__item:nth-child(2) .video-card { rotate: 4deg; }
+  .videos__item:nth-child(3) .video-card { rotate: -2deg; }
+  .videos__item:nth-child(4) .video-card { rotate: 3deg; }
+
+  .video-card__placeholder {
+    display: grid;
+    padding: var(--space-2);
+  }
+
+  .video-card__title {
+    font-weight: 600;
+  }
+
+  .video-card__video {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  /* With a video, the title is still the link's name but isn't shown */
+  .video-card__title--hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* ---------- Video cards, not desktop above 64rem: no figure ---------- */
+  /* The group is the text column alone: the h1 is the group's top, and the buttons
+     row starts after the h1 line, --space-2 and three subtitle lines. */
+
+  @media (max-width: 30rem), not all and (hover: hover) and (pointer: fine) {
+    .videos {
+      --videos-upper-top: 0px;
+      --videos-lower-top: calc(1.1 * var(--fs-display) + var(--space-2) + 4.35 * var(--fs-lead) + var(--space-5) + var(--videos-tilt-room));
+    }
+  }
+
+  /* ---------- Stack: max-width 64rem (--bp-stack) ---------- */
+  /* The cards can't keep their places beside the hero, so they aren't rendered (VIDEO-4;
+     display: none takes them out of the tab order and the accessibility tree). The hero
+     goes back to a plain block, exactly as before the cards existed. */
+
+  @media (max-width: 64rem) {
+    .hero {
+      display: block;
+    }
+
+    .videos {
+      display: none;
+    }
+  }
+}

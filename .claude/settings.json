@@ -3,6 +3,7 @@
     "allow": [
       "Bash(npm run qa:shots *)",
       "Bash(npm run qa:shots)",
+      "Bash(npm run check:layers)",
       "Bash(npm run build)",
       "Bash(git fetch)",
       "Bash(git fetch origin)",
@@ -11,11 +12,16 @@
       "Bash(gh project item-list *)",
       "Bash(gh project field-list *)",
       "Bash(gh project view *)",
-      "Bash(gh label list *)"
+      "Bash(gh label list *)",
+      "Bash(gh issue view *)",
+      "Bash(gh issue list *)",
+      "Bash(gh pr list *)"
     ],
     "deny": [
       "Read(./.env)",
       "Read(./.env.*)",
+      "Edit(./.env)",
+      "Edit(./.env.*)",
       "Bash(gh pr merge:*)",
       "Bash(gh issue close:*)",
       "Bash(git push origin main:*)",
@@ -33,5 +39,27 @@
       "PowerShell(git push --force:*)",
       "PowerShell(git push -f:*)"
     ]
+  },
+  "extraKnownMarketplaces": {
+    "hwk-v0.2.0": {
+      "source": {
+        "source": "settings",
+        "name": "hwk-v0.2.0",
+        "owner": { "name": "Hannah Nguyen" },
+        "plugins": [
+          {
+            "name": "hannah-web-kit",
+            "source": {
+              "source": "url",
+              "url": "https://github.com/HannahNgyx/hannah-web-kit.git",
+              "ref": "v0.2.0"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "enabledPlugins": {
+    "hannah-web-kit@hwk-v0.2.0": true
   }
 }
