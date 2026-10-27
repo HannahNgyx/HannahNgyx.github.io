@@ -1,4 +1,4 @@
-// hannah-web-kit 0.1.0 · copied into the site by /init-site; refresh it with /init-site refresh, don't edit the site copy.
+// hannah-web-kit 0.2.0 · copied into the site by /init-site; refresh it with /init-site refresh, don't edit the site copy.
 //
 // Screenshots at the site's widths (design/site.json):
 //   enhance on:  <w>-<motion>-top.jpg (first screen) and <w>-<motion>.jpg (full page), motion = normal | reduce

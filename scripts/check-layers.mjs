@@ -1,4 +1,4 @@
-// hannah-web-kit 0.1.0 · copied into the site by /init-site; refresh it with /init-site refresh, don't edit the site copy.
+// hannah-web-kit 0.2.0 · copied into the site by /init-site; refresh it with /init-site refresh, don't edit the site copy.
 //
 // Checks the layer contract and the code structure (house rules L-1 to L-3, S-1 to S-5, D-8):
 //   - src/layers.css declares `@layer base, enhance;`

@@ -39,5 +39,27 @@
       "PowerShell(git push --force:*)",
       "PowerShell(git push -f:*)"
     ]
+  },
+  "extraKnownMarketplaces": {
+    "hwk-v0.2.0": {
+      "source": {
+        "source": "settings",
+        "name": "hwk-v0.2.0",
+        "owner": { "name": "Hannah Nguyen" },
+        "plugins": [
+          {
+            "name": "hannah-web-kit",
+            "source": {
+              "source": "url",
+              "url": "https://github.com/HannahNgyx/hannah-web-kit.git",
+              "ref": "v0.2.0"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "enabledPlugins": {
+    "hannah-web-kit@hwk-v0.2.0": true
   }
 }
